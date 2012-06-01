@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 void ReadFromFile(FILE* input){
     FILE* output;
     float ncontatos;
