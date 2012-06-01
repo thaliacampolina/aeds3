@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 
 RM = rm -f
 
-OBJS = main_2.o
+OBJS = main.o
 
 MAIN = main
 
