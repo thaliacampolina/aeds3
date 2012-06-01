@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "contact.h"
+#include "contact.c"
 
 void ReadFromFile(FILE* input){
     FILE* output;
     float ncontatos;
     float mbuffer;
     int  numblocos;
-    char c;
-    char heap[1000];
-    int i;
     int fileCounter=1;
 
     //creates the first output file (block)
@@ -16,7 +15,7 @@ void ReadFromFile(FILE* input){
     fileName=calloc(10,sizeof(char));
     sprintf(fileName,"output_%d.txt",fileCounter); 
     printf("%s\n",fileName);
-    output=fopen(fileName,"w");
+    output=fopen(fileName,"w+");
 
     // calculates the necessary number of blocks
     fscanf(input,"%f",&ncontatos);
@@ -34,7 +33,9 @@ void ReadFromFile(FILE* input){
 	fputs(nome,output);	//escreve no arquivo
 	if(count==mbuffer){
 
-  //          SortBlock(fileName);
+
+        rewind(output);
+        SortNameInFile(output,mbuffer);
 
 	    fclose(output);
 	    count=0;
@@ -45,12 +46,9 @@ void ReadFromFile(FILE* input){
 	}
     }
 
-	fclose(output);        
+    fclose(output);
 }
 
-//void SortBlock(char fileName){
-//   FILE* 
-//}
 
 int main (int argc, char* argv[]) {
 
