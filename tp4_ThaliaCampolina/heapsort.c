@@ -1,10 +1,11 @@
-////////////////
-// heapsort   //
+///////////////
+// heapsort  //
 ///////////////
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "heapsort.h"
+#include "contact.h"
 
 void HeapSort(Contact* vector[], int n) {
    int i = n/2;
@@ -27,12 +28,12 @@ void HeapSort(Contact* vector[], int n) {
       filho = i*2 + 1;
  
       while (filho < n) {
-          if ((filho + 1 < n)  &&  (vector[filho + 1] > vector[filho]))
+          if ((filho + 1 < n)  &&  (IsMinorThen(vector[filho], vector[filho + 1]))
               filho++;
-          if (vector[filho] > t){
-             vector[pai] = vector[filho];
-             pai = filho;
-             filho = pai*2 + 1;
+          if (IsMinorThen(t,vector[filho])){
+              vector[pai] = vector[filho];
+              pai = filho;
+              filho = pai*2 + 1;
           }
           else
              break;

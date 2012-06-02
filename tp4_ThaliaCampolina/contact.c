@@ -14,13 +14,11 @@
 Contact* CreateNewContact() {
     Contact* contact=(Contact*) malloc(sizeof(Contact));
     contact->name_=calloc(120,sizeof(char));
-    contact->stamp_=0;
     return contact;
 }
 
-void InsertNameInContact(Contact* contact, char* name, int stamp){
+void InsertNameInContact(Contact* contact, char* name){
     strcpy(contact->name_, name);
-    contact->stamp_=stamp;
 }
 
 //void* FreeContact(Contact* contact){
@@ -72,7 +70,7 @@ void SortNameInFile(FILE* arquivo,float msize){
     //pega do arquivo os nomes e armazena no vetor
     for(i=0;i<size;i++){
        fgets(stuingue,120,arquivo);
-       InsertNameInContact(vetor[i], stuingue, 0);
+       InsertNameInContact(vetor[i], stuingue);
        //strcpy(vetor[i].name_,stuingue);
     }
         
