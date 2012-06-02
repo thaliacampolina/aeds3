@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "contact.h"
+#include "heapsort.c"
 
 Contact* CreateNewContact (){
     Contact* contact=(Contact*) malloc(sizeof(Contact));
@@ -16,9 +17,8 @@ Contact* CreateNewContact (){
     return contact;
 }
 
-void* InsertNameInContact(Contact* contact, char* name, int number){
+void* InsertNameInContact(Contact* contact, char* name){
     strcpy(contact->name_, name);
-    contact->number_=number;
 }
 
 //void* FreeContact(Contact* contact){
@@ -53,7 +53,10 @@ void SelectionSortNames(Contact vetor[], int m) {
     }
 }
 
-Contact* CreateVector(int size){
+
+
+void SortNameInFile(FILE* arquivo,float msize){
+    int size=(int)msize;
     Contact vetor[size-1];
     char* stuingue=calloc(100,sizeof(char));
     //vetor[0]=(Contact*) malloc(sizeof(Contact));
@@ -63,17 +66,6 @@ Contact* CreateVector(int size){
     for(i=0;i<size;i++){
         vetor[i].name_=calloc(100,sizeof(char));
     }
-    return vector;
-}
-
-//int PutsNameInVector(){
-//}
-
-
-void SortNameInFile(FILE* arquivo,float msize){
-    int size=(int)msize;
-    Contact vetor[size-1];
-    vector=CreateVector(size);
 
     //pega do arquivo os nomes e armazena no vetor
     for(i=0;i<size;i++){
