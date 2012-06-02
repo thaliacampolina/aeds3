@@ -6,10 +6,10 @@
 #include <stdlib.h>
 #include "heapsort.h"
 
-void HeapSort(int vector[], int n) {
+void HeapSort(Contact* vector[], int n) {
    int i = n/2;
    int pai, filho;
-   int t;
+   Contact* t;
  
    for (;;){
       if (i > 0){
