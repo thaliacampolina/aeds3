@@ -7,38 +7,38 @@
 #include "heapsort.h"
 #include "contact.h"
 
-void HeapSort(Contact* vector[], int n) {
-   int i = n/2;
+void HeapSort(Contact* vector[], int size) {
+   int mid = size/2;
    int pai, filho;
    Contact* t;
  
    for (;;){
-      if (i > 0){
-          i--;
-          t = vector[i];
+      if (mid > 0){
+          mid--;
+          strcpy(t->name_,vector[mid]->name_);
       } else {
-          n--;
-          if (n == 0)
+          size--;
+          if (size == 0)
              return;
-          t = vector[n];
-          vector[n] = vector[0];
+          strcpy(t->name_,vector[size]->name_);
+          strcpy(vector[size]->name_,vector[0]->name_);
       }
  
-      pai = i;
-      filho = i*2 + 1;
+      pai = mid;
+      filho = mid*2 + 1;
  
-      while (filho < n) {
-          if ((filho + 1 < n)  &&  (IsMinorThen(vector[filho], vector[filho + 1]))
+      while (filho < size) {
+          if ((filho + 1 < size)  &&  (IsMinorThen(vector[filho]->name_, vector[filho + 1]->name_)))
               filho++;
-          if (IsMinorThen(t,vector[filho])){
-              vector[pai] = vector[filho];
+          if (IsMinorThen(t->name_,vector[filho]->name_)){
+              strcpy(vector[pai]->name_,vector[filho]->name_);
               pai = filho;
               filho = pai*2 + 1;
           }
           else
              break;
       }
-      vector[pai] = t;
+      strcpy(vector[pai]->name_,t->name_);
    }
 }
 
