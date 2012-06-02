@@ -53,8 +53,7 @@ void SelectionSortNames(Contact vetor[], int m) {
     }
 }
 
-void SortNameInFile(FILE* arquivo,float msize){
-    int size=(int)msize;
+Contact* CreateVector(int size){
     Contact vetor[size-1];
     char* stuingue=calloc(100,sizeof(char));
     //vetor[0]=(Contact*) malloc(sizeof(Contact));
@@ -64,6 +63,18 @@ void SortNameInFile(FILE* arquivo,float msize){
     for(i=0;i<size;i++){
         vetor[i].name_=calloc(100,sizeof(char));
     }
+    return vector;
+}
+
+//int PutsNameInVector(){
+//}
+
+
+void SortNameInFile(FILE* arquivo,float msize){
+    int size=(int)msize;
+    Contact vetor[size-1];
+    vector=CreateVector(size);
+
     //pega do arquivo os nomes e armazena no vetor
     for(i=0;i<size;i++){
        fgets(stuingue,100,arquivo);
