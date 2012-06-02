@@ -1,0 +1,2 @@
+
+void HeapSort(int[], int);
