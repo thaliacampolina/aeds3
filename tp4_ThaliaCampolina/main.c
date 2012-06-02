@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "contact.h"
-#include "contact.c"
 
 void ReadFromFile(FILE* input){
     FILE* output;
@@ -48,6 +47,10 @@ void ReadFromFile(FILE* input){
     fclose(output);
 
 // NOW THAT THE FIRST BLOCKS ARE DONE, STARTS THE SORT INTERCALATION
+
+
+
+
 }
 
 
