@@ -10,18 +10,17 @@ void ReadFromFile(FILE* input){
     int  numblocos;
     int fileCounter=1;
 
+    // calculates the necessary number of blocks
+    fscanf(input,"%f",&ncontatos);
+    fscanf(input,"%f",&mbuffer);
+    numblocos =(int)ceil(ncontatos/mbuffer);
+
     //creates the first output file (block)
     char* fileName;
     fileName=calloc(10,sizeof(char));
     sprintf(fileName,"output_%d.txt",fileCounter); 
     printf("%s\n",fileName);
     output=fopen(fileName,"w+");
-
-    // calculates the necessary number of blocks
-    fscanf(input,"%f",&ncontatos);
-    fscanf(input,"%f",&mbuffer);
-    numblocos =(int)ceil(ncontatos/mbuffer);
-
     //creates the rest of the output files (blocks)
     char* nome=calloc(100,sizeof(char));
     float count=0;
@@ -30,14 +29,14 @@ void ReadFromFile(FILE* input){
     while(fgets(nome,100,input)>0){
         printf("%s\n",nome);   
         count++;
-	fputs(nome,output);	//escreve no arquivo
+	fputs(nome,output);	//write on file
 	if(count==mbuffer){
 
-
+        //sort contacts on each block
         rewind(output);
         SortNameInFile(output,mbuffer);
 
-	    fclose(output);
+            fclose(output);
 	    count=0;
 	    fileCounter++;
             sprintf(fileName,"output_%d.txt",fileCounter); 
