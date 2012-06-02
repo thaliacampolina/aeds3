@@ -20,22 +20,25 @@ void ReadFromFile(FILE* input){
     sprintf(fileName,"output_%d.txt",fileCounter); 
     printf("%s\n",fileName);
     output=fopen(fileName,"w+");
+
     //creates the rest of the output files (blocks)
     char* nome=calloc(100,sizeof(char));
     float count=0;
     fgets(nome,100,input);
     printf("\n%s\n",nome);
+
     while(fgets(nome,100,input)>0){
-        printf("%s\n",nome);   
+           //printf("%s\n",nome);   
         count++;
-	fputs(nome,output);	//write on file
+	fputs(nome,output);	//escreve no arquivo
 	if(count==mbuffer){
 
-        //sort contacts on each block
-        rewind(output);
-        SortNameInFile(output,mbuffer);
-
-            fclose(output);
+  //          SortBlock(fileName);
+	    //rebobina arquivo para poder ser lido dentro da funcao
+            rewind(output);	
+	    maluco(output,(int)mbuffer);
+	    
+	    fclose(output);
 	    count=0;
 	    fileCounter++;
             sprintf(fileName,"output_%d.txt",fileCounter); 
@@ -44,12 +47,7 @@ void ReadFromFile(FILE* input){
 	}
     }
 
-    fclose(output);
-
-// NOW THAT THE FIRST BLOCKS ARE DONE, STARTS THE SORT INTERCALATION
-
-
-
+	fclose(output);
 
 }
 
