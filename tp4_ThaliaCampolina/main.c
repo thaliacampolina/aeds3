@@ -46,6 +46,8 @@ void ReadFromFile(FILE* input){
     }
 
     fclose(output);
+
+// NOW THAT THE FIRST BLOCKS ARE DONE, STARTS THE SORT INTERCALATION
 }
 
 

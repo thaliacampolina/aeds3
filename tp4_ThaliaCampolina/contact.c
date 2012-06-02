@@ -11,24 +11,26 @@
 #include "contact.h"
 #include "heapsort.c"
 
-Contact* CreateNewContact (){
+Contact* CreateNewContact() {
     Contact* contact=(Contact*) malloc(sizeof(Contact));
-    contact->name_=calloc(30,sizeof(char));
+    contact->name_=calloc(120,sizeof(char));
+    contact->stamp_=0;
     return contact;
 }
 
-void* InsertNameInContact(Contact* contact, char* name){
+void InsertNameInContact(Contact* contact, char* name, int stamp){
     strcpy(contact->name_, name);
+    contact->stamp_=stamp;
 }
 
 //void* FreeContact(Contact* contact){
 //    free(contact->name_);
 //}
 
-int IsMinorThen(Contact* contact1, Contact* contact2){
-    char* name1=contact1->name_; 
-    char* name2=contact2->name_; 
-    if(strncmp(name1,name2,30)<0){
+int IsMinorThen(Contact contact1, Contact contact2){
+    char* name1=contact1.name_; 
+    char* name2=contact2.name_; 
+    if(strncmp(name1,name2,100)<0){
         return 1;     
     }
     return 0;
@@ -38,16 +40,16 @@ int IsMinorThen(Contact* contact1, Contact* contact2){
 
 
 
-void SelectionSortNames(Contact vetor[], int m) {
+void SelectionSortNames(Contact* vetor[], int m) {
     int i,j,n;
     n=m;        
-    char* aux_char=calloc(100,sizeof(char));
+    char* aux_char=calloc(120,sizeof(char));
     for(i=0; i<n-1; i++) {
         for(j=i+1; j<n; j++) {        
-            if(strncmp(vetor[i].name_,vetor[j].name_,15)>0){
-                strcpy(aux_char, vetor[i].name_);
-                strcpy(vetor[i].name_, vetor[j].name_);
-                strcpy(vetor[j].name_, aux_char);        
+            if(strncmp(vetor[i]->name_,vetor[j]->name_,100)>0){
+                strcpy(aux_char, vetor[i]->name_);
+                strcpy(vetor[i]->name_, vetor[j]->name_);
+                strcpy(vetor[j]->name_, aux_char);        
             }
         }
     }
@@ -57,20 +59,21 @@ void SelectionSortNames(Contact vetor[], int m) {
 
 void SortNameInFile(FILE* arquivo,float msize){
     int size=(int)msize;
-    Contact vetor[size-1];
-    char* stuingue=calloc(100,sizeof(char));
+    Contact* vetor[size-1];
+    char* stuingue=calloc(120,sizeof(char));
     //vetor[0]=(Contact*) malloc(sizeof(Contact));
     int i;
 
     //aloca espaco no vetor para os nomes
     for(i=0;i<size;i++){
-        vetor[i].name_=calloc(100,sizeof(char));
+        vetor[i]=CreateNewContact();
     }
 
     //pega do arquivo os nomes e armazena no vetor
     for(i=0;i<size;i++){
-       fgets(stuingue,100,arquivo);
-       strcpy(vetor[i].name_,stuingue);
+       fgets(stuingue,120,arquivo);
+       InsertNameInContact(vetor[i], stuingue, 0);
+       //strcpy(vetor[i].name_,stuingue);
     }
         
     //chama o metodo de ordenacao por selecao
@@ -81,7 +84,29 @@ void SortNameInFile(FILE* arquivo,float msize){
 
     //escreve no arquivo de saida
     for(i=0;i<size;i++) {
-        fputs(vetor[i].name_,arquivo);
+        fputs(vetor[i]->name_,arquivo);
     }
         
 }
+
+/*
+void IntercalatesTwoFiles(FILE* file1, FILE* file2){
+//the heap is defined with only two contacts
+    Contact* buffer[2];
+    int i; 
+    char* stuingue=calloc(120,sizeof(char));
+    //aloca espaco no vetor para os nomes
+    for(i=0;i<2;i++){
+        vetor[i].name_=calloc(120,sizeof(char));
+    }
+
+    //pega dos arquivos os nomes e armazena no vetor
+       fgets(stuingue,120,file1);
+       strcpy(vetor[0].name_,stuingue);
+       fgets(stuingue,120,file2);
+       strcpy(vetor[1].name_,stuingue);
+       HeapSort(buffer,2);
+}
+*/
+
+

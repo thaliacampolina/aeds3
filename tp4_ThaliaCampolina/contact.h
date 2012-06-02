@@ -11,6 +11,7 @@
 //cellphone contacts struct. 
 typedef struct contact {
     char* name_;
+    int stamp_;
 }Contact;
 
 
