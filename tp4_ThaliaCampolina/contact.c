@@ -9,7 +9,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "contact.h"
-#include "heapsort.c"
 
 Contact* CreateNewContact() {
     Contact* contact=(Contact*) malloc(sizeof(Contact));
@@ -26,36 +25,48 @@ void InsertNameInContact(Contact* contact, char* name){
 //}
 
 int IsMinorThen(Contact contact1, Contact contact2){
-    char* name1=contact1.name_; 
-    char* name2=contact2.name_; 
-    if(strncmp(name1,name2,100)<0){
+    if(strncmp(contact1.name_,contact2.name_,100)<0){
         return 1;     
     }
     return 0;
 }
 
 
-
-
-/*
-void IntercalatesTwoFiles(FILE* file1, FILE* file2){
-//the heap is defined with only two contacts
-    Contact* buffer[2];
-    int i; 
-    char* stuingue=calloc(120,sizeof(char));
-    //aloca espaco no vetor para os nomes
-    for(i=0;i<2;i++){
-        vetor[i].name_=calloc(120,sizeof(char));
-    }
-
-    //pega dos arquivos os nomes e armazena no vetor
-       fgets(stuingue,120,file1);
-       strcpy(vetor[0].name_,stuingue);
-       fgets(stuingue,120,file2);
-       strcpy(vetor[1].name_,stuingue);
-       HeapSort(buffer,2);
+void HeapSort(Contact vector[], int size) {
+   int mid = size/2;
+   int pai, filho;
+   Contact t;
+   t.name_=calloc(120,sizeof(char));
+ 
+   for (;;){
+      if (mid > 0){
+          mid--;
+          strcpy(t.name_,vector[mid].name_);
+      } else {
+          size--;
+          if (size == 0)
+             return;
+          strcpy(t.name_,vector[size].name_);
+          strcpy(vector[size].name_,vector[0].name_);
+      }
+ 
+      pai = mid;
+      filho = mid*2 + 1;
+ 
+      while (filho < size) {
+          if ((filho + 1 < size)  &&  (IsMinorThen(vector[filho], vector[filho + 1])))
+              filho++;
+          if (IsMinorThen(t,vector[filho])){
+              strcpy(vector[pai].name_,vector[filho].name_);
+              pai = filho;
+              filho = pai*2 + 1;
+          }
+          else
+             break;
+      }
+      strcpy(vector[pai].name_,t.name_);
+   }
 }
-*/
 
 
 void SortNames(Contact vetor[], int m) {
@@ -132,6 +143,8 @@ void TreatFiles(int mbuffer, int numblocos) {
         arquivo[i]=fopen(fileName,"r");
     }
 //copy names to heap 
+
+
     for(i=0;i<mbuffer;i++){
         fgets(name,120,arquivo[j]);
         strcpy(heap[i].name_,name);
@@ -141,9 +154,24 @@ void TreatFiles(int mbuffer, int numblocos) {
         }
     }
 
+    HeapSort(heap,mbuffer);
 
+
+//debug: print heap
     for(i=0; i<mbuffer;i++){
         printf("@@  %s\n",heap[i].name_);
     }
 }
 
+//------------------------------------------------------------------ is working so far ---------------------------//
+
+/*
+
+void ThrowNamesInFile(Contact heap[], int mbuffer, FILE* arquivo, int numcontacts){
+    while(numcontacts>0){
+        fputs(heap[0].name_,arquivo);
+        numcontacts --;
+    }
+}
+
+*/
