@@ -16,7 +16,7 @@ void ReadFromFile(FILE* input){
 
     //creates the first output file (block)
     char* fileName;
-    fileName=calloc(10,sizeof(char));
+    fileName=calloc(15,sizeof(char));
     sprintf(fileName,"output_%d.txt",fileCounter); 
     printf("%s\n",fileName);
     output=fopen(fileName,"w+");
@@ -36,7 +36,7 @@ void ReadFromFile(FILE* input){
   //          SortBlock(fileName);
 	    //rebobina arquivo para poder ser lido dentro da funcao
             rewind(output);	
-	    maluco(output,(int)mbuffer);
+            SortNameInFile(output,(int)mbuffer);
 	    
 	    fclose(output);
 	    count=0;
@@ -48,6 +48,8 @@ void ReadFromFile(FILE* input){
     }
 
 	fclose(output);
+
+//BEGINS THE INTERCALATION BETWEEN FILES
 
 }
 

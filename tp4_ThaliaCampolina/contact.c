@@ -37,61 +37,6 @@ int IsMinorThen(Contact contact1, Contact contact2){
 
 
 
-
-void SelectionSortNames(Contact vetor[], int m) {
-    int i,j,n;
-    n=m;        
-    char* aux_char=calloc(120,sizeof(char));
-    for(i=0; i<n-1; i++) {
-        for(j=i+1; j<n; j++) {        
-            if(strncmp(vetor[i].name_,vetor[j].name_,15)>0){
-                strcpy(aux_char, vetor[i].name_);
-                strcpy(vetor[i].name_, vetor[j].name_);
-                strcpy(vetor[j].name_, aux_char);        
-            }
-        }
-    }
-}
-
-
-
-void SortNameInFile(FILE* arquivo,float msize){
-    int size=(int)msize;
-    Contact vetor[size-1];
-    char* stuingue=calloc(120,sizeof(char));
-    //vetor[0]=(Contact*) malloc(sizeof(Contact));
-    int i;
-
-    //aloca espaco no vetor para os nomes
-    for(i=0;i<size;i++){
-        vetor[i].name_=calloc(15,sizeof(char));
-    }
-
-
-
-    //pega do arquivo os nomes e armazena no vetor
-    for(i=0;i<size;i++){
-       fgets(stuingue,120,arquivo);
-       strcpy(vetor[i].name_,stuingue);
-       //strcpy(vetor[i].name_,stuingue);
-    }
-
-        
-    //chama o metodo de ordenacao por selecao
-    SelectionSortNames(vetor,size);
-
-    //rebobina o ponteiro do arquivo pra escrever desde o comeco
-    rewind(arquivo);
-
-    //escreve no arquivo de saida
-    for(i=0;i<size;i++) {
-        fputs(vetor[i].name_,arquivo);
-    }
-	printf("saida\n");
-
-        
-}
-
 /*
 void IntercalatesTwoFiles(FILE* file1, FILE* file2){
 //the heap is defined with only two contacts
@@ -113,7 +58,7 @@ void IntercalatesTwoFiles(FILE* file1, FILE* file2){
 */
 
 
-void ordenar_selecao_nome(Contact vetor[], int m) {
+void SortNames(Contact vetor[], int m) {
     int i,j,n;
     n=m;	
     char* aux_char=calloc(100,sizeof(char));
@@ -132,8 +77,7 @@ void ordenar_selecao_nome(Contact vetor[], int m) {
     }
 }
 
-void maluco(FILE *arquivo,int m)
-{
+void SortNameInFile(FILE *arquivo,int m) {
 
 	Contact vetor[m-1];
 	char* stuingue=calloc(100,sizeof(char));
@@ -153,20 +97,26 @@ void maluco(FILE *arquivo,int m)
 	}
 	
 	//chama o metodo de ordenacao por selecao
-	ordenar_selecao_nome(vetor,m);
+	SortNames(vetor,m);
 
 	//rebobina o ponteiro do arquivo pra escrever desde o comeco
 	rewind(arquivo);
 
 	//escreve no arquivo de saida
-	for(i=0;i<m;i++)
-	{
-		fputs(vetor[i].name_,arquivo);
+	for(i=0;i<m;i++){
+	    fputs(vetor[i].name_,arquivo);
 	}
-
-
-
-	
 }
+
+//---------------------------------is working untill so far, end implemantation------------------------------------//
+
+//INTERCALAR OS FILES
+
+OpenAllFiles(){
+
+
+}
+
+
 
 
