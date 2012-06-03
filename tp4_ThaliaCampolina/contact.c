@@ -92,7 +92,7 @@ void SortNameInFile(FILE *arquivo,int m) {
 	//pega do arquivo os nomes e armazena no vetor
 	for(i=0;i<m;i++)
 	{
-		fgets(stuingue,100,arquivo);
+        	fgets(stuingue,100,arquivo);
 		strcpy(vetor[i].name_,stuingue);
 	}
 	
@@ -112,11 +112,38 @@ void SortNameInFile(FILE *arquivo,int m) {
 
 //INTERCALAR OS FILES
 
-OpenAllFiles(){
+void TreatFiles(int mbuffer, int numblocos) {
+    int i;
+    FILE* arquivo[numblocos];
+    char* name=calloc(120,sizeof(char));
+    char* fileName=calloc(15,sizeof(char));
+    int diff;
+    fpos_t pos;
+    int j=0;
+
+    Contact heap[mbuffer];
+//alloc heap[] memory
+    for(i=0;i<mbuffer;i++) {
+        heap[i].name_=calloc(120,sizeof(char));
+    } 
+//open files
+    for(i=0;i<numblocos;i++){
+        sprintf(fileName,"output_%d.txt",i+1);
+        arquivo[i]=fopen(fileName,"r");
+    }
+//copy names to heap 
+    for(i=0;i<mbuffer;i++){
+        fgets(name,120,arquivo[j]);
+        strcpy(heap[i].name_,name);
+        j++;
+        if((j)==numblocos){
+            j=0;
+        }
+    }
 
 
+    for(i=0; i<mbuffer;i++){
+        printf("@@  %s\n",heap[i].name_);
+    }
 }
-
-
-
 

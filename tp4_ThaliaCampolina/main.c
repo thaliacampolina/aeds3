@@ -51,6 +51,11 @@ void ReadFromFile(FILE* input){
 
 //BEGINS THE INTERCALATION BETWEEN FILES
 
+
+    TreatFiles((int)mbuffer, numblocos);
+
+
+
 }
 
 
