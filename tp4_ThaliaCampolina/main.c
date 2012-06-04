@@ -66,7 +66,7 @@ int main (int argc, char* argv[]) {
         return 0;
     } else {
         FILE* input;
-        input = fopen(argv[1], "r");
+        input = fopen(argv[2], "r");
         if (input == NULL){
             puts("O ARQUIVO NAO FOI ABERTO");
             return 0;
@@ -77,23 +77,3 @@ int main (int argc, char* argv[]) {
     }
 }
 
-/*
- while((linha_comando = (getopt(argc,argv,"a:r:s:"))) != -1)
-        {
-                switch(linha_comando)
-                {
-                        case 'a' :  nome_arquivo_ambiente = optarg;
-                                break;
-
-                        case 'r' : nome_arquivo_requisicoes = optarg;
-                                break;
-
-                        case 's' : nome_arquivo_requisicoes_atendidas = optarg;
-                                break;
-
-                        default: printf("Parametro invalido %c\n", linha_comando);
-                                exit(1);
-                }
-        }
-
-*/
