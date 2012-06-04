@@ -20,10 +20,6 @@ void InsertNameInContact(Contact* contact, char* name){
     strcpy(contact->name_, name);
 }
 
-//void* FreeContact(Contact* contact){
-//    free(contact->name_);
-//}
-
 int IsMinorThen(Contact contact1, Contact contact2){
     if(strncmp(contact1.name_,contact2.name_,100)<0){
         return 1;     
@@ -92,45 +88,46 @@ void SortNameInFile(FILE *arquivo,int m) {
 
 	Contact vetor[m-1];
 	char* stuingue=calloc(100,sizeof(char));
-	//vetor[0]=(Contact*) malloc(sizeof(Contact));
 	int i;
 
-	//aloca espaco no vetor para os nomes
+	//alloc names memory
 	for(i=0;i<m;i++)
 	{
 		vetor[i].name_=calloc(100,sizeof(char));
 	}
-	//pega do arquivo os nomes e armazena no vetor
+	//puts filenames in vector
 	for(i=0;i<m;i++)
 	{
         	fgets(stuingue,100,arquivo);
 		strcpy(vetor[i].name_,stuingue);
 	}
 	
-	//chama o metodo de ordenacao por selecao
+	//call the selection sort function
 	SortNames(vetor,m);
 
-	//rebobina o ponteiro do arquivo pra escrever desde o comeco
+	//rewind the file so it can be written on it since its beggining
 	rewind(arquivo);
 
-	//escreve no arquivo de saida
+	//write on output file
 	for(i=0;i<m;i++){
 	    fputs(vetor[i].name_,arquivo);
 	}
 }
 
-//---------------------------------is working untill so far, end implemantation------------------------------------//
+//--------------------------------- is working so far ------------------------------------//
 
-//INTERCALAR OS FILES
+//INTERCALATES FILES
 
-void TreatFiles(int mbuffer, int numblocos) {
+void TreatFiles(int mbuffer, int numblocos, int numcontacts) {
     int i;
     FILE* arquivo[numblocos];
+    FILE* saida=fopen("output.txt","w");
     char* name=calloc(120,sizeof(char));
     char* fileName=calloc(15,sizeof(char));
     int diff;
     fpos_t pos;
     int j=0;
+    int last=0;
 
     Contact heap[mbuffer];
 //alloc heap[] memory
@@ -144,7 +141,6 @@ void TreatFiles(int mbuffer, int numblocos) {
     }
 //copy names to heap 
 
-
     for(i=0;i<mbuffer;i++){
         fgets(name,120,arquivo[j]);
         strcpy(heap[i].name_,name);
@@ -152,9 +148,29 @@ void TreatFiles(int mbuffer, int numblocos) {
         if((j)==numblocos){
             j=0;
         }
+        last=i;
+
     }
 
-    HeapSort(heap,mbuffer);
+    HeapSort(heap,(int)mbuffer);
+
+//put names on file output.txt
+    fputs(heap[0].name_,saida);
+    while(numcontacts>0){
+       if(fgets(name,120,arquivo[last])>0)
+       {
+	 strcpy(heap[0].name_,name);
+	 HeapSort(heap,(int)mbuffer);
+	 
+	 fputs(heap[0].name_,saida);
+       }
+        
+        numcontacts--;
+	last=last+1;
+	if(last>numblocos){
+		last=0;
+	}
+    }
 
 
 //debug: print heap
@@ -163,15 +179,5 @@ void TreatFiles(int mbuffer, int numblocos) {
     }
 }
 
-//------------------------------------------------------------------ is working so far ---------------------------//
+//------------------------------------------- is not sorting correctly ------------------------------------------//
 
-/*
-
-void ThrowNamesInFile(Contact heap[], int mbuffer, FILE* arquivo, int numcontacts){
-    while(numcontacts>0){
-        fputs(heap[0].name_,arquivo);
-        numcontacts --;
-    }
-}
-
-*/

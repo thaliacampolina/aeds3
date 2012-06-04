@@ -30,11 +30,11 @@ void ReadFromFile(FILE* input){
     while(fgets(nome,100,input)>0){
            //printf("%s\n",nome);   
         count++;
-	fputs(nome,output);	//escreve no arquivo
+	fputs(nome,output);	//write on file
 	if(count==mbuffer){
 
-  //          SortBlock(fileName);
-	    //rebobina arquivo para poder ser lido dentro da funcao
+
+	    //rewinf file so it can be used in the function
             rewind(output);	
             SortNameInFile(output,(int)mbuffer);
 	    
@@ -52,7 +52,7 @@ void ReadFromFile(FILE* input){
 //BEGINS THE INTERCALATION BETWEEN FILES
 
 
-    TreatFiles((int)mbuffer, numblocos);
+    TreatFiles((int)mbuffer, numblocos,(int)ncontatos);
 
 
 
