@@ -6,7 +6,7 @@ RM = rm -f
 
 OBJS = main.o
 
-MAIN = main
+MAIN = tp5 
 
 $(MAIN): $(OBJS)
 	@echo ""
