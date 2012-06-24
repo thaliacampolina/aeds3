@@ -25,7 +25,7 @@ printf("LIST:%s ",node->info_);
 printf("\n \n number of char: %d \n number of words %d\n \n",char_counter,word_counter);
 
 
-FindMinorDistance(words, dictionary, stopwords);
+FindMinorDistance(words, dictionary, stopwords, word_counter);
 
 printf("\n \n waka waka eh eh \n");
 
@@ -71,7 +71,7 @@ int CalculatesDistance(char* word, char* word_dic) {
    return dif; 
 }
 
-void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords){
+void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords, int word_counter){
     char* dic = (char*)calloc(100,sizeof(char));
     char* stopw = (char*)calloc(100,sizeof(char));
     char* word = (char*)calloc(100,sizeof(char));
@@ -80,6 +80,7 @@ void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords){
     int i=0;
     int j=0;
     int k=0;
+    int l=0;
     for (node = frontList(list); node != backList(list); node = node->next_){
 
         strcpy(word,node->info_);
@@ -151,8 +152,8 @@ printf("\n word == %s", word);
 
         rewind(dictionary);
         rewind(stopwords);
-        i++;
-        if(i==12) break;
+        l++;
+        if(l==word_counter) break;
 printf("\n \n \n suggest: %s \n",node->suggest_);
     }
 }
