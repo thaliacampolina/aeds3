@@ -51,10 +51,20 @@ int LengthStr(char* word){
 
 
 
+int EqualWords(char* word, char* word_dic){
+    int i=0;
+    int sub=CalculatesDistance(word,word_dic);
+    if(LengthStr(word)==LengthStr(word_dic)){
+        if (sub==0) return 1;
+    }
+    return 0;
+}
+
+
 int CalculatesDistance(char* word, char* word_dic) {
     int i=0;
     int dif=0;
-    while(word[i]LenghtStr(word)='\0' && word_dic[i]!='\0'){
+    while( i != LengthStr(word) && word_dic[i]!='\0'){
         if(word[i]!=word_dic[i]){
             dif++;
         }
@@ -69,15 +79,27 @@ void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords){
     Node* node;
     int i=0;
     for (node = frontList(list); node != backList(list); node = node->next_){
+        //searching the words on the dictionary
         while(fscanf(dictionary,"%s", dic) >0) {
-            if(CalculatesDistance(node->info_, dic) < node->dif_){
+            //if the words are equal, problem solved
+            if(EqualWords(node->info_,dic)==1){
+                strcpy(node->suggest_,stopw);
+                node->dif_= CalculatesDistance(node->info_, stopw);
+            //else, find the minor distance
+            } else if(CalculatesDistance(node->info_, dic) < node->dif_){
                 strcpy(node->suggest_,dic);
                 node->dif_= CalculatesDistance(node->info_, dic);
             }
         }
 
+        //searching the words on the stopwords
         while(fscanf(stopwords,"%s", stopw) >0) {
-            if(CalculatesDistance(node->info_, stopw) < node->dif_){
+            //if the words are equal, problem solved
+            if(EqualWords(node->info_,dic)==1){
+                strcpy(node->suggest_,stopw);
+                node->dif_= CalculatesDistance(node->info_, stopw);
+            //else, find the minor distance
+            } else if(CalculatesDistance(node->info_, stopw) < node->dif_){
                 strcpy(node->suggest_,stopw);
                 node->dif_= CalculatesDistance(node->info_, stopw);
             }
