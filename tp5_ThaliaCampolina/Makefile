@@ -23,5 +23,6 @@ clean:
 	clear
 
 run: $(MAIN)
-	./$(MAIN) input.txt
+	./$(MAIN) -i input.txt -d dictionary.txt -s stopwords.txt -o output.txt
+
 

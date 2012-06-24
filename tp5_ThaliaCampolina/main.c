@@ -3,27 +3,103 @@
 #include <string.h>
 #include <unistd.h>
 #include "list.h"
+#include "list.c"
 
 
-void ReadFromFile(FILE* input, List* words){
+void ReadFromFile(FILE* input, List* words, FILE* dictionary, FILE* stopwords){
     char* word=calloc(100,sizeof(char));
     char* empty;
-    strcpy(empty,"");
-    int count=0;
-    
+    int word_counter=0;
+    int char_counter=0;
+
+
+//CREATE WORDS LIST    
     while(fscanf(input,"%s",word)>0){ 
-        Node* node =  NewNode(word, words->end_, words->end_);
-printf("%s ",word);
+        Node* node = NewNode(word, words->end_, words->end_);
+printf("NODE: %s ",node->info_);
+        InsertBack(words, word);  
+        word_counter++;
+        char_counter = countWordCharacter(word) + char_counter;
+printf("LIST:%s ",node->info_);
     }
-printf("\n");
+printf("\n \n number of char: %d \n number of words %d\n \n",char_counter,word_counter);
+
+
+FindMinorDistance(words, dictionary, stopwords);
+
+printf("\n \n waka waka eh eh \n");
+
 }
+
+
+
+int countWordCharacter(char* count_word) {
+    int i = 0;
+    while(count_word[i]!= '\0'){
+        i++;
+    }
+    return i;
+}
+
+int LengthStr(char* word){
+    int i=0;
+    while(word[i]!='\0'){
+        i++;
+    }
+    return i;
+}
+
+
+
+int CalculatesDistance(char* word, char* word_dic) {
+    int i=0;
+    int dif=0;
+    while(word[i]LenghtStr(word)='\0' && word_dic[i]!='\0'){
+        if(word[i]!=word_dic[i]){
+            dif++;
+        }
+        i++;
+    }
+   return dif; 
+}
+
+void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords){
+    char* dic = (char*)calloc(100,sizeof(char));
+    char* stopw = (char*)calloc(100,sizeof(char));
+    Node* node;
+    int i=0;
+    for (node = frontList(list); node != backList(list); node = node->next_){
+        while(fscanf(dictionary,"%s", dic) >0) {
+            if(CalculatesDistance(node->info_, dic) < node->dif_){
+                strcpy(node->suggest_,dic);
+                node->dif_= CalculatesDistance(node->info_, dic);
+            }
+        }
+
+        while(fscanf(stopwords,"%s", stopw) >0) {
+            if(CalculatesDistance(node->info_, stopw) < node->dif_){
+                strcpy(node->suggest_,stopw);
+                node->dif_= CalculatesDistance(node->info_, stopw);
+            }
+        }
+
+
+        rewind(dictionary);
+        rewind(stopwords);
+        i++;
+        if(i==12) break;
+printf("\n \n \n suggest: %s \n",node->suggest_);
+    }
+}
+
 
 
 int main (int argc, char* argv[]) {
     FILE *dictionary,*stopwords,*input,*output;
     char option;
     char *s_dictionary, *s_stopwords, *s_input, *s_output;
-    List* words = NewList(); 
+    List* words;
+    words = NewList(); 
     if (argc<8){
         puts("ARGUMENT MISSING");
         return 0;
@@ -56,7 +132,7 @@ int main (int argc, char* argv[]) {
             puts("O ARQUIVO NAO FOI ABERTO");
             return 0;
         } else {
-            ReadFromFile(input, words);
+            ReadFromFile(input, words, dictionary, stopwords);
         }
         return 0;
     }
