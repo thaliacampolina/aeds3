@@ -52,19 +52,17 @@ int LengthStr(char* word){
 
 
 int EqualWords(char* word, char* word_dic){
-    int i=0;
-    int sub=CalculatesDistance(word,word_dic);
-    if(LengthStr(word)==LengthStr(word_dic)){
-        if (sub==0) return 1;
+    if (strcmp(word,word_dic)==0){
+        return 1;
+    } else {
+        return 0;
     }
-    return 0;
 }
-
 
 int CalculatesDistance(char* word, char* word_dic) {
     int i=0;
     int dif=0;
-    while( i != LengthStr(word) && word_dic[i]!='\0'){
+    while( i < LengthStr(word) && word_dic[i]!='\0'){
         if(word[i]!=word_dic[i]){
             dif++;
         }
@@ -76,32 +74,77 @@ int CalculatesDistance(char* word, char* word_dic) {
 void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords){
     char* dic = (char*)calloc(100,sizeof(char));
     char* stopw = (char*)calloc(100,sizeof(char));
+    char* word = (char*)calloc(100,sizeof(char));
+    char c;
     Node* node;
     int i=0;
+    int j=0;
+    int k=0;
     for (node = frontList(list); node != backList(list); node = node->next_){
-        //searching the words on the dictionary
+
+        strcpy(word,node->info_);
+        //converting to lowercase 
+        while(i < LengthStr(word)){
+            c=word[i];
+            word[i]=putchar(tolower(c));
+            i++;
+        }
+printf("\n word == %s", word);
+         /////////////////////////////////////////
+        //searching the words on the dictionary//
+        ////////////////////////////////////////
         while(fscanf(dictionary,"%s", dic) >0) {
+        
+        //converting to lowercase 
+            while(dic[j] < LengthStr(dic)){
+                char c=dic[j];
+                dic[j]=putchar(tolower(c));
+                j++;
+            }
+
             //if the words are equal, problem solved
-            if(EqualWords(node->info_,dic)==1){
-                strcpy(node->suggest_,stopw);
-                node->dif_= CalculatesDistance(node->info_, stopw);
-            //else, find the minor distance
-            } else if(CalculatesDistance(node->info_, dic) < node->dif_){
+            //if(EqualWords(node->info_,dic)==1){
+            if(EqualWords(word,dic)==1){
                 strcpy(node->suggest_,dic);
-                node->dif_= CalculatesDistance(node->info_, dic);
+                //node->dif_= CalculatesDistance(node->info_, dic);
+                node->dif_= CalculatesDistance(word, dic);
+
+            //else, find the minor distance
+            //} else if(CalculatesDistance(node->info_, dic) < node->dif_){
+            } else if(CalculatesDistance(word, dic) < node->dif_){
+                strcpy(node->suggest_,dic);
+                //node->dif_= CalculatesDistance(node->info_, dic);
+                node->dif_= CalculatesDistance(word, dic);
             }
         }
 
-        //searching the words on the stopwords
+         ///////////////////////////////////////
+        //searching the words on the stopwords//
+        ///////////////////////////////////////
         while(fscanf(stopwords,"%s", stopw) >0) {
+
+
+        //converting to lowercase 
+            while(stopw[k] < LengthStr(stopw)){
+                char c=stopw[k];
+                stopw[k]=putchar(tolower(c));
+                i++;
+            }
+
+
             //if the words are equal, problem solved
-            if(EqualWords(node->info_,dic)==1){
+            //if(EqualWords(node->info_,stopw)==1){
+            if(EqualWords(word,stopw)==1){
                 strcpy(node->suggest_,stopw);
-                node->dif_= CalculatesDistance(node->info_, stopw);
+             //   node->dif_= CalculatesDistance(node->info_, stopw);
+                node->dif_= CalculatesDistance(word, stopw);
+
             //else, find the minor distance
-            } else if(CalculatesDistance(node->info_, stopw) < node->dif_){
+           // } else if(CalculatesDistance(node->info_, stopw) < node->dif_){
+            } else if(CalculatesDistance(word, stopw) < node->dif_){
                 strcpy(node->suggest_,stopw);
-                node->dif_= CalculatesDistance(node->info_, stopw);
+                //node->dif_= CalculatesDistance(node->info_, stopw);
+                node->dif_= CalculatesDistance(word, stopw);
             }
         }
 
