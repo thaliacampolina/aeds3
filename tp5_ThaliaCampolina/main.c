@@ -6,30 +6,6 @@
 #include "list.c"
 
 
-void ReadFromFile(FILE* input, List* words, FILE* dictionary, FILE* stopwords){
-    char* word=calloc(100,sizeof(char));
-    char* empty;
-    int word_counter=0;
-    int char_counter=0;
-
-
-//CREATE WORDS LIST    
-    while(fscanf(input,"%s",word)>0){ 
-        Node* node = NewNode(word, words->end_, words->end_);
-printf("NODE: %s ",node->info_);
-        InsertBack(words, word);  
-        word_counter++;
-        char_counter = countWordCharacter(word) + char_counter;
-printf("LIST:%s ",node->info_);
-    }
-printf("\n \n number of char: %d \n number of words %d\n \n",char_counter,word_counter);
-
-
-FindMinorDistance(words, dictionary, stopwords, word_counter);
-
-printf("\n \n waka waka eh eh \n");
-
-}
 
 
 
@@ -159,6 +135,51 @@ printf("\n \n \n suggest: %s \n",node->suggest_);
 }
 
 
+void* CreateOutput(FILE* output, int word_counter, int char_counter, List* words){
+    int l = 0;
+    Node* node;
+    fprintf(output,"%d\n%d\n",char_counter, word_counter);
+    for (node = frontList(words); node != backList(words); node = node->next_){
+        l++;
+        fprintf(output,"%s ", node->suggest_ );
+        if(l==word_counter) break;
+    }
+}
+
+
+
+
+void ReadFromFile(FILE* input, FILE* output, List* words, FILE* dictionary, FILE* stopwords){
+    char* word=calloc(100,sizeof(char));
+    char* empty;
+    int word_counter=0;
+    int char_counter=0;
+
+
+//CREATE WORDS LIST    
+    while(fscanf(input,"%s",word)>0){ 
+        Node* node = NewNode(word, words->end_, words->end_);
+printf("NODE: %s ",node->info_);
+        InsertBack(words, word);  
+        word_counter++;
+        char_counter = countWordCharacter(word) + char_counter;
+printf("LIST:%s ",node->info_);
+    }
+printf("\n \n number of char: %d \n number of words %d\n \n",char_counter,word_counter);
+
+
+FindMinorDistance(words, dictionary, stopwords, word_counter);
+
+CreateOutput(output, word_counter, char_counter, words);
+
+printf("\n \n waka waka eh eh \n");
+
+}
+
+
+
+
+
 
 int main (int argc, char* argv[]) {
     FILE *dictionary,*stopwords,*input,*output;
@@ -198,7 +219,7 @@ int main (int argc, char* argv[]) {
             puts("O ARQUIVO NAO FOI ABERTO");
             return 0;
         } else {
-            ReadFromFile(input, words, dictionary, stopwords);
+            ReadFromFile(input, output, words, dictionary, stopwords);
         }
         return 0;
     }
