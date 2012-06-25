@@ -1,0 +1,1 @@
+void HeapSort(Contact*, int);

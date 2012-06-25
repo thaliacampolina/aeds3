@@ -1,0 +1,102 @@
+diff --git a/tp4_ThaliaCampolina/contact.c b/tp4_ThaliaCampolina/contact.c
+index 30a1945..1754b3b 100644
+--- a/tp4_ThaliaCampolina/contact.c
++++ b/tp4_ThaliaCampolina/contact.c
+@@ -12,7 +12,7 @@
+ 
+ Contact* CreateNewContact (){
+     Contact* contact=(Contact*) malloc(sizeof(Contact));
+-    contact->name_=calloc(15,sizeof(char));
++    contact->name_=calloc(30,sizeof(char));
+     return contact;
+ }
+ 
+@@ -28,7 +28,7 @@ void* FreeContact(Contact* contact){
+ int IsMinorThen(Contact* contact1, Contact* contact2){
+     char* name1=contact1->name_; 
+     char* name2=contact2->name_; 
+-    if(strncmp(name1,name2,15)<0){
++    if(strncmp(name1,name2,30)<0){
+         return 1;     
+     }
+     return 0;
+diff --git a/tp4_ThaliaCampolina/main.c b/tp4_ThaliaCampolina/main.c
+index 3e8c2be..ab48460 100644
+--- a/tp4_ThaliaCampolina/main.c
++++ b/tp4_ThaliaCampolina/main.c
+@@ -1,55 +1,50 @@
+ #include <stdio.h>
+ #include <stdlib.h>
++#include "contact.h"
++#include "manipulatesfile.c"
+ 
+ void ReadFromFile(FILE* input){
+     FILE* output;
+     float ncontatos;
+     float mbuffer;
+     int  numblocos;
+-    char c;
+-    char heap[1000];
+-    int i;
+-    int fileCounter=1;
+-
+-    //creates the first output file (block)
+-    char* fileName;
+-    fileName=calloc(10,sizeof(char));
+-    sprintf(fileName,"output_%d.txt",fileCounter); 
+-    printf("%s\n",fileName);
+-    output=fopen(fileName,"w");
+ 
+     // calculates the necessary number of blocks
+     fscanf(input,"%f",&ncontatos);
+     fscanf(input,"%f",&mbuffer);
+-    numblocos =(int)ceil(ncontatos/mbuffer);
++    numblocos = CaculatesBlocks(ncontatos,mbuffer);
++
++
++    //creates output files (block)
++    int fileCounter=1;
++    char* fileName;
++    fileName=CreateFileName(fileCounter);
++printf("%s\n",fileName);
+ 
+-    //creates the rest of the output files (blocks)
+-    char* nome=calloc(100,sizeof(char));
++    char* name=calloc(50,sizeof(char));
+     float count=0;
+-    fgets(nome,100,input);
+-    printf("\n%s\n",nome);
+-    while(fgets(nome,100,input)>0){
+-        printf("%s\n",nome);   
++    fgets(name,50,input);
++    while(fgets(name,50,input)>0){
++printf("%s\n",name);
+         count++;
+-	fputs(nome,output);	//escreve no arquivo
++	fputs(name,output);	//escreve no arquivo
+ 	if(count==mbuffer){
+ 
+-  //          SortBlock(fileName);
+-
+ 	    fclose(output);
++
+ 	    count=0;
+ 	    fileCounter++;
+-            sprintf(fileName,"output_%d.txt",fileCounter); 
++            fileName=CreateFileName(fileCounter);
+             output=fopen(fileName,"w+");
+-
+ 	}
+     }
++	fclose(output);
+ 
+-	fclose(output);        
++puts("antes de entrar insertnames\n");
+ }
+ 
+ //void SortBlock(char fileName){
+-//   FILE* 
++//   FILE*
+ //}
+ 
+ int main (int argc, char* argv[]) {
