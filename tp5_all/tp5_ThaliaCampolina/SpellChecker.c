@@ -62,7 +62,6 @@ void FindMinorDistance(List* list ,FILE* dictionary, FILE* stopwords, int word_c
             word[i]=putchar(tolower(c));
             i++;
         }
-printf("\n word == %s", word);
          /////////////////////////////////////////
         //searching the words on the dictionary//
         ////////////////////////////////////////
@@ -126,7 +125,6 @@ printf("\n word == %s", word);
         rewind(stopwords);
         l++;
         if(l==word_counter) break;
-printf("\n \n \n suggest: %s \n",node->suggest_);
     }
 }
 
@@ -155,20 +153,16 @@ void ReadFromFile(FILE* input, FILE* output, List* words, FILE* dictionary, FILE
 //CREATE WORDS LIST    
     while(fscanf(input,"%s",word)>0){ 
         Node* node = NewNode(word, words->end_, words->end_);
-printf("NODE: %s ",node->info_);
         InsertBack(words, word);  
         word_counter++;
         char_counter = countWordCharacter(word) + char_counter;
-printf("LIST:%s ",node->info_);
     }
-printf("\n \n number of char: %d \n number of words %d\n \n",char_counter,word_counter);
 
 
-FindMinorDistance(words, dictionary, stopwords, word_counter);
+    FindMinorDistance(words, dictionary, stopwords, word_counter);
 
-CreateOutput(output, word_counter, char_counter, words);
+    CreateOutput(output, word_counter, char_counter, words);
 
-printf("\n \n waka waka eh eh \n");
 
 }
 
