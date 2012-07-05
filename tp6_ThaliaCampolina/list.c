@@ -126,7 +126,7 @@ void PrintList(List* list){
     Node* node; 
     printf("LIST = ");
     for (node = frontList(list); node != backList(list); node = node->next_){
-        printf("%p, ", node->info_);
+        printf("%s, ", node->info_);
     }
     printf("\n");
 }

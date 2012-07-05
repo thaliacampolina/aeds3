@@ -54,40 +54,55 @@ int main (int argc, char* argv[]) {
 
         for (a=1; a <= instances; a++) {
             fscanf(input, "%d", &number);
-            List* mensCrushes[number]; 
-            List* womansCrushes[number];
+            //List* menCrushes[number]; 
+            //List* womenCrushes[number];
+            PersonList* men=createPersonList(); 
+            PersonList* women=createPersonList();
+            PrefList* menCrushes = createPrefList();
+            PrefList* womenCrushes = createPrefList();
 
-            for(i=0; i < number; i++){
-                mensCrushes[i] = NewList();
-                womansCrushes[i] = NewList();
-            }
             for (i=0; i < number; i++) {
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
-                    InsertBack(&mensCrushes[i],y);
+                    insertPref(menCrushes,y );
                 }
             }
             for (i=0; i < number; i++) {
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
-                    InsertBack(&womansCrushes[i],y);
+                    insertPref(womenCrushes,y );
                 }
             }
 
-            SMP(mensCrushes, womansCrushes);
-            float geral = Satisfaction(mensCrushes) + Satisfaction(womansCrushes);
+            SMP(menCrushes, womenCrushes);
+            float geral = Satisfaction(menCrushes) + Satisfaction(womenCrushes);
             output = fopen("output.txt", "w");
-            for (i=0; i<number; i++){
-                fprintf(output,"%d %d\n", i+1 , mensCrushes[i].status_);
+            //Escreve no arquivo os casais formados
+            Node* node1 = frontList(menCrushes->list_); 
+            Node* node2 = frontList(menCrushes->list_->preferences_->list_); 
+            while ( node1 != backList(menCrushes->list_) ) {
+                while (node2 != backList(menCrushes->person->preferences_->list_)) {
+                    int num=0;
+                    fprintf(output,"%d %d\n", num+1 , menCrushes.person->preferences_.status_);
+                    i++;
+                    node1 = node->next_;
+                }
+                node2 = node->next_;
             }
-            fprintf (output, "%.3f\n", Satisfaction(womansCrushes));
-            fprintf (output, "%.3f\n", Satisfaction(mensCrushes));
+            fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
+            fprintf (output, "%.3f\n", Satisfaction(menCrushes));
             fprintf (output, "%.3f\n", geral);
         //Liberar memoria:
-            for(i=0; i < number; i++){
-                clear(&mensCrushes[i]);
-                clear(&womansCrushes[i]);
+            //for(i=0; i < number; i++){
+            node1 = frontList(menCrushes->list_); 
+            node2 = frontList(womenCrushes->list_); 
+            while ( node1 != backList(womenCrushes->list_) ) {
+                clear(womenCrushes->person->preferences_->list_);
+                node1 = node1->next_;
             }
+            while ( node2 != backList(menCrushes->list_) ) {
+                clear(menCrushes->person->preferences_->list_);            }
+                node2 = node2->next_;
         }
         printf("Esta dando erro \n");
         fclose(input);
