@@ -22,8 +22,8 @@ void dumpPrefList(PrefList* pref) {
     printf ("(PrefList ==> ");
     while ( node != backList(pref->list_) ) {
         if (node!=NULL && getInfo(node)!=NULL) {
-            int *p = getInfo(node);
-            printf ("%d ", p->university);
+            int p = getInfo(node);
+            printf ("%d ", p);
         }
         node = nextList(pref->list_, node);
     }
@@ -31,17 +31,16 @@ void dumpPrefList(PrefList* pref) {
 }
 
 
-Person* createPerson(int key, int grade, PrefList* prefs){
+Person* createPerson(int key, PrefList* prefs){
     Person* pers = (Person*) malloc(sizeof(Person));
     pers -> key_ = key;
-    pers -> grade_ = grade;
     pers -> preferences_ = prefs;
     pers -> status_ = SINGLE;
     return pers;
 }
 void dumpPerson(Person* person){
-    printf("(Person ==> key = %d, grade = %d, status = %d ",
-        person->key_, person->grade_, person->status_);
+    printf("(Person ==> key = %d, status = %d ",
+        person->key_,  person->status_);
     dumpPrefList(person->preferences_);
     printf(")");
 }
@@ -83,7 +82,4 @@ Person* findPersonWithKey(PersonList* personList, int key){
     }
     return NULL;
 }
-
-
-                                                                                                            88,0-1        Fim
 

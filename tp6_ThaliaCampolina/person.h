@@ -22,7 +22,7 @@ typedef struct person {
 } Person;
 
 //Cria nova pessoa
-Person* createPerson(int key, int grade, PrefList* prefs);
+Person* createPerson(int key, PrefList* prefs);
 //Plota informacoes da pessoa na tela
 void dumpPerson(Person* person);
 
@@ -30,6 +30,7 @@ void dumpPerson(Person* person);
 typedef struct personList {
     List* list_;
 } PersonList;
+ 
 
 //Cria Lista de Pessoas
 PersonList* createPersonList();

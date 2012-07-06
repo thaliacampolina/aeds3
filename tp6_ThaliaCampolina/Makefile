@@ -4,7 +4,7 @@ CFLAGS = -Wall -g
 
 RM = rm -f
 
-OBJS = list.o main.o marriage.o
+OBJS = list.o main.o marriage.o person.o
 
 MAIN = tp6
 
@@ -23,5 +23,5 @@ clean:
 	clear
 
 run: $(MAIN)
-	./$(MAIN)
+	./$(MAIN) -i input.txt -o output.txt
 

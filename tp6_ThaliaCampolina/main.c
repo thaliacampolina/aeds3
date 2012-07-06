@@ -39,13 +39,10 @@ int main (int argc, char* argv[]) {
         input = fopen(s_input, "r");
         output = fopen(s_output, "w");
 
-
      if (input == NULL){
          puts("O ARQUIVO NAO FOI ABERTO");
          return 0;
      } else {
-
-
 
         int a,i,j,y, number, instances;
         number = 0;
@@ -56,52 +53,73 @@ int main (int argc, char* argv[]) {
             fscanf(input, "%d", &number);
             //List* menCrushes[number]; 
             //List* womenCrushes[number];
-            PersonList* men=createPersonList(); 
-            PersonList* women=createPersonList();
+            PersonList* menList=createPersonList(); 
+            PersonList* womenList=createPersonList();
             PrefList* menCrushes = createPrefList();
             PrefList* womenCrushes = createPrefList();
+            Person* men; 
+            Person* women; 
 
+//Creating men preference list
+//Insert men on men list
             for (i=0; i < number; i++) {
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
                     insertPref(menCrushes,y );
                 }
+                men=createPerson(i,menCrushes);
+                insertPersonInList(menList, men);
+//DEBUG
+puts("\n");
+puts("men preflist:");
+dumpPrefList(menCrushes);
+puts("\n");
             }
+
+//creating women preference list
             for (i=0; i < number; i++) {
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
                     insertPref(womenCrushes,y );
                 }
+                women=createPerson(i,womenCrushes);
+                insertPersonInList(menList, women);
+//DEBUG
+puts("\n");
+puts("women preflist:");
+dumpPrefList(womenCrushes);
+puts("\n");
             }
+
 
             SMP(menCrushes, womenCrushes);
             float geral = Satisfaction(menCrushes) + Satisfaction(womenCrushes);
             output = fopen("output.txt", "w");
-            //Escreve no arquivo os casais formados
-            Node* node1 = frontList(menCrushes->list_); 
-            Node* node2 = frontList(menCrushes->list_->preferences_->list_); 
-            while ( node1 != backList(menCrushes->list_) ) {
-                while (node2 != backList(menCrushes->person->preferences_->list_)) {
-                    int num=0;
-                    fprintf(output,"%d %d\n", num+1 , menCrushes.person->preferences_.status_);
-                    i++;
-                    node1 = node->next_;
-                }
-                node2 = node->next_;
+
+            //Write on file the created couples
+            Node* node1 = frontList(menList->list_); 
+            Node* node2; 
+            int num;
+            while ( node1 != backList(menList->list_) ) {
+                num=0;
+          //      fprintf(output,"%d %d\n", num+1 , node1->info_->status_);
+                num++;
+                node1 = node1->next_;
             }
             fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
             fprintf (output, "%.3f\n", Satisfaction(menCrushes));
             fprintf (output, "%.3f\n", geral);
-        //Liberar memoria:
+
+            //Memory free:
             //for(i=0; i < number; i++){
-            node1 = frontList(menCrushes->list_); 
-            node2 = frontList(womenCrushes->list_); 
-            while ( node1 != backList(womenCrushes->list_) ) {
-                clear(womenCrushes->person->preferences_->list_);
+            node1 = frontList(menList->list_); 
+            node2 = frontList(womenList->list_); 
+            while ( node1 != backList(women->preferences_) ) {
+                clear(womenList->list_);
                 node1 = node1->next_;
             }
-            while ( node2 != backList(menCrushes->list_) ) {
-                clear(menCrushes->person->preferences_->list_);            }
+            while ( node2 != backList(menList->list_) ) {
+                clear(menList->list_);            }
                 node2 = node2->next_;
         }
         printf("Esta dando erro \n");
@@ -111,4 +129,3 @@ int main (int argc, char* argv[]) {
         }
     }
 }
-
