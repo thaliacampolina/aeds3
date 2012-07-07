@@ -59,7 +59,7 @@ void insertPersonInList(PersonList* personList, Person* person){
 }
 
 void dumpPersonList(PersonList* personList) {
-    printf("Lista de alunos: ");
+    printf("Lista de alunos: \n");
     assert(personList);
     assert(personList->list_);
     Node* node = frontList(personList->list_);
@@ -69,11 +69,9 @@ void dumpPersonList(PersonList* personList) {
         }
         node = nextList(personList->list_, node);
     }
-    printf("\n");
 }
 
 Person* findPersonWithKey(PersonList* personList, void* key){
-//    printf("entrei findpersonwithkey\n");
     assert(personList);
     assert(personList->list_);
     Node* node = frontList(personList->list_);
@@ -83,8 +81,6 @@ Person* findPersonWithKey(PersonList* personList, void* key){
     
     while ( node != backList(personList->list_) ) {
         if(person->key_==key){
- //           printf("achei a pessoa\n");
-            dumpPerson( person );
             return person;
         }
         node = nextList(personList->list_, node);

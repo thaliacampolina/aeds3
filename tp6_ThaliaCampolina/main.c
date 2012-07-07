@@ -71,12 +71,6 @@ int main (int argc, char* argv[]) {
                 
                 men=createPerson(i,menCrushes);
                 insertPersonInList(menList, men);
-//DEBUG
-//puts("\n");
-//puts("\n LIST FROM PREFLIST \n");
-//puts("men preflist:");
-//dumpPrefList(menCrushes);
-//puts("\n");
 
             }
 
@@ -90,53 +84,14 @@ int main (int argc, char* argv[]) {
                 }
                 women=createPerson(i,womenCrushes);
                 insertPersonInList(womenList, women);
-                
-//DEBUG
-//puts("\n");
-//puts("\n LIST FROM PREFLIST \n");
-//puts("women preflist:");
-//dumpPrefList(womenCrushes);
-//puts("\n");
-
+  
             }
-
 
             //Stable Marriage Problem
             SMP(menList, womenList, number);
+            dumpPersonList(menList);
+            dumpPersonList(womenList);
 
-
-            float geral = Satisfaction(menCrushes) + Satisfaction(womenCrushes);
-            output = fopen("output.txt", "w");
-
-            //Write on file the created couples
-            Node* node1 = frontList(menList->list_); 
-            Node* node2; 
-            int num;
-            while ( node1 != backList(menList->list_) ) {
-puts("loop wazuuuuuuuuuuuuuuup");
-                num=0;
-          //      fprintf(output,"%d %d\n", num+1 , node1->info_->status_);
-                num++;
-                node1 = node1->next_;
-            }
-            //fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
-            //fprintf (output, "%.3f\n", Satisfaction(menCrushes));
-            //fprintf (output, "%.3f\n", geral);
-/*
-            //Memory free:
-            //for(i=0; i < number; i++){
-            node1 = frontList(menList->list_); 
-            node2 = frontList(womenList->list_); 
-            while ( node1 != backList(women->preferences_->list_) ) {
-                clear(womenList->list_);
-                node1 = nextList(women->preferences_->list_, node1);
-puts("loop iai mano");
-            }
-            while ( node2 != backList(menList->list_) ) {
-                clear(menList->list_);            }
-                node2 = node2->next_;
-puts("loop iai bro");
-*/
         }
         fclose(input);
         fclose(output);
