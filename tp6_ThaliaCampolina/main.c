@@ -48,31 +48,27 @@ int main (int argc, char* argv[]) {
         number = 0;
         input=fopen("input.txt", "r");
         fscanf(input, "%d", &instances);
+        
+        PersonList* menList=createPersonList(); 
+        PersonList* womenList=createPersonList();
+        PrefList* menCrushes;
+        PrefList* womenCrushes;
+        Person* men; 
+        Person* women;
 
         for (a=1; a <= instances; a++) {
             fscanf(input, "%d", &number);
-            //List* menCrushes[number]; 
-            //List* womenCrushes[number];
-            PersonList* menList=createPersonList(); 
-            PersonList* womenList=createPersonList();
-            PrefList* menCrushes;
-            PrefList* womenCrushes;
-            Person* men; 
-            Person* women; 
+ 
 
-//Creating men preference list
-//Insert men on men list
+            for (i=1; i <= number; i++) {
 
-//puts("\n LIST WHILE READ FILE \n");
-            for (i=0; i < number; i++) {
-//puts("men list:");
                 menCrushes = createPrefList();
+                
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
-//DEBUG
-//printf("%d,",y);
                     insertPref(menCrushes,y );
                 }
+                
                 men=createPerson(i,menCrushes);
                 insertPersonInList(menList, men);
 //DEBUG
@@ -81,32 +77,32 @@ int main (int argc, char* argv[]) {
 //puts("men preflist:");
 //dumpPrefList(menCrushes);
 //puts("\n");
+
             }
 
-//creating women preference list
-//puts("\n LIST WHILE READ FILE \n");
-            for (i=0; i < number; i++) {
-//puts("woman list:");
+            for (i=1; i <= number; i++) {
+
                 womenCrushes = createPrefList();
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
-//DEBUG
-//printf("%d,",y);
+
                     insertPref(womenCrushes,y );
                 }
                 women=createPerson(i,womenCrushes);
-                insertPersonInList(menList, women);
+                insertPersonInList(womenList, women);
+                
 //DEBUG
 //puts("\n");
 //puts("\n LIST FROM PREFLIST \n");
 //puts("women preflist:");
 //dumpPrefList(womenCrushes);
 //puts("\n");
+
             }
 
 
             //Stable Marriage Problem
-            SMP(menCrushes, womenCrushes, number);
+            SMP(menList, womenList, number);
 
 
             float geral = Satisfaction(menCrushes) + Satisfaction(womenCrushes);
@@ -123,9 +119,9 @@ puts("loop wazuuuuuuuuuuuuuuup");
                 num++;
                 node1 = node1->next_;
             }
-            fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
-            fprintf (output, "%.3f\n", Satisfaction(menCrushes));
-            fprintf (output, "%.3f\n", geral);
+            //fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
+            //fprintf (output, "%.3f\n", Satisfaction(menCrushes));
+            //fprintf (output, "%.3f\n", geral);
 /*
             //Memory free:
             //for(i=0; i < number; i++){

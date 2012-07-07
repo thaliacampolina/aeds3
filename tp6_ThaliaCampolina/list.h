@@ -10,7 +10,7 @@
 typedef struct node {
     struct node* next_;
     struct node* prev_;
-    void *info_;
+    void* info_;
 } Node;
 
 typedef struct list {

@@ -23,11 +23,12 @@ float Satisfaction(List* list){
 
 //return 1 if person is Married
 int isMarried(PersonList* personList , int key){
-    Person* person;
+  //  printf("entrei ismarried\n");
+    Person* person=(Person*) malloc(sizeof(Person));
     person=findPersonWithKey(personList, key);
-//person->status_ = 8;
-puts("bobo");
-printf("status = %d \n", person->status_);
+    dumpPerson(person);
+    printf("status=%d\n",person->status_);
+
     if(person->status_ != -1){
         return 1;
     }
@@ -36,9 +37,10 @@ printf("status = %d \n", person->status_);
 
 //if all men or all women are married, return 1. Number = number of person, given in the input file
 int AllMarried(PersonList* personList, int number){
+ //   printf("entrei allmarried\n");
     int i;
     for (i = 1; i <= number; i++){
-        if(isMarried(personList, i)){
+        if(isMarried(personList, i)==0){
         return 0;
         }
     }
@@ -93,11 +95,15 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
     Person* man;
     Person* woman;
     int id_woman;
- //   number = mensCrushes[0].size_;
-    while (!AllMarried (menList,number)){
+    int i;
+//    printf("entrei SMP\n");
+  
+
+    while (AllMarried (menList,number)!=0){
 puts("ti cole mano");
-        man = frontList(menList->list_);
-        while ( man != backList(menList->list_) ) {    
+        man = (Person*)frontList(menList->list_);
+        while ( man !=(Person*) backList(menList->list_) ) {    
+        //for ( i=1 ; i <= number; i++ ) {    
 puts("faaaaala fiii");
             id_woman = getInfo((firstElement(man->preferences_->list_)));
             woman=findPersonWithKey(womenList, id_woman);

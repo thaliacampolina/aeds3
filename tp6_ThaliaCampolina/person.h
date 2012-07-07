@@ -34,6 +34,8 @@ typedef struct personList {
 
 //Cria Lista de Pessoas
 PersonList* createPersonList();
+
+Person* findPersonWithKey(PersonList* personList, void* key);
 //Insere preferencia na Lista de uma pessoa
 void insertPersonInList(PersonList* personList, Person* person);
 //Plota Lista de Pessoas na tela

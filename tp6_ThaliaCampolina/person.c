@@ -12,22 +12,23 @@ PrefList* createPrefList(){
 }
 
 void insertPref(PrefList* pref, int p){
-    InsertBack (pref->list_, (void*) p);
+    InsertBack (pref->list_, p);
 }
 
 void dumpPrefList(PrefList* pref) {
     assert(pref);
     assert(pref->list_);
     Node* node = frontList(pref->list_);
+    void* p;
     printf ("(PrefList ==> ");
     while ( node != backList(pref->list_) ) {
         if (node!=NULL && getInfo(node)!=NULL) {
-            int p = getInfo(node);
+            p = getInfo(node);
             printf ("%d ", p);
         }
         node = nextList(pref->list_, node);
     }
-    printf (") ");
+    printf (") \n");
 }
 
 
@@ -71,20 +72,25 @@ void dumpPersonList(PersonList* personList) {
     printf("\n");
 }
 
-Person* findPersonWithKey(PersonList* personList, void* key, int number){
-    int i;
-    Person* person = frontList(personList->list_);
-    //Person* person;
-    for (i=1; i <= number; i++) {
-        //person->key_ = getInfo(node);
-	//person->status_=-1;
-printf("idiota \n");
-printf("\n key=%d  person key:%d \n",key,person->key_);
-            if( person->key_ == key ){
-                return person;
-            }
-            person = nextList(personList->list_, person );
+Person* findPersonWithKey(PersonList* personList, void* key){
+//    printf("entrei findpersonwithkey\n");
+    assert(personList);
+    assert(personList->list_);
+    Node* node = frontList(personList->list_);
+    //dumpPerson( (Person*) getInfo(node) );
+    Person* person=(Person*) malloc(sizeof(Person));
+    person=( (Person*) getInfo(node) );
+    
+    while ( node != backList(personList->list_) ) {
+        if(person->key_==key){
+ //           printf("achei a pessoa\n");
+            dumpPerson( person );
+            return person;
+        }
+        node = nextList(personList->list_, node);
+        person=( (Person*) getInfo(node) );
+
     }
-    return NULL;
+
 }
 
