@@ -55,44 +55,60 @@ int main (int argc, char* argv[]) {
             //List* womenCrushes[number];
             PersonList* menList=createPersonList(); 
             PersonList* womenList=createPersonList();
-            PrefList* menCrushes = createPrefList();
-            PrefList* womenCrushes = createPrefList();
+            PrefList* menCrushes;
+            PrefList* womenCrushes;
             Person* men; 
             Person* women; 
 
 //Creating men preference list
 //Insert men on men list
+
+//puts("\n LIST WHILE READ FILE \n");
             for (i=0; i < number; i++) {
+//puts("men list:");
+                menCrushes = createPrefList();
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
+//DEBUG
+//printf("%d,",y);
                     insertPref(menCrushes,y );
                 }
                 men=createPerson(i,menCrushes);
                 insertPersonInList(menList, men);
 //DEBUG
-puts("\n");
-puts("men preflist:");
-dumpPrefList(menCrushes);
-puts("\n");
+//puts("\n");
+//puts("\n LIST FROM PREFLIST \n");
+//puts("men preflist:");
+//dumpPrefList(menCrushes);
+//puts("\n");
             }
 
 //creating women preference list
+//puts("\n LIST WHILE READ FILE \n");
             for (i=0; i < number; i++) {
+//puts("woman list:");
+                womenCrushes = createPrefList();
                 for (j=0; j < number; j++) {
                     fscanf(input, "%d", &y);
+//DEBUG
+//printf("%d,",y);
                     insertPref(womenCrushes,y );
                 }
                 women=createPerson(i,womenCrushes);
                 insertPersonInList(menList, women);
 //DEBUG
-puts("\n");
-puts("women preflist:");
-dumpPrefList(womenCrushes);
-puts("\n");
+//puts("\n");
+//puts("\n LIST FROM PREFLIST \n");
+//puts("women preflist:");
+//dumpPrefList(womenCrushes);
+//puts("\n");
             }
 
 
-            SMP(menCrushes, womenCrushes);
+            //Stable Marriage Problem
+            SMP(menCrushes, womenCrushes, number);
+
+
             float geral = Satisfaction(menCrushes) + Satisfaction(womenCrushes);
             output = fopen("output.txt", "w");
 
@@ -101,6 +117,7 @@ puts("\n");
             Node* node2; 
             int num;
             while ( node1 != backList(menList->list_) ) {
+puts("loop wazuuuuuuuuuuuuuuup");
                 num=0;
           //      fprintf(output,"%d %d\n", num+1 , node1->info_->status_);
                 num++;
@@ -109,23 +126,25 @@ puts("\n");
             fprintf (output, "%.3f\n", Satisfaction(womenCrushes));
             fprintf (output, "%.3f\n", Satisfaction(menCrushes));
             fprintf (output, "%.3f\n", geral);
-
+/*
             //Memory free:
             //for(i=0; i < number; i++){
             node1 = frontList(menList->list_); 
             node2 = frontList(womenList->list_); 
-            while ( node1 != backList(women->preferences_) ) {
+            while ( node1 != backList(women->preferences_->list_) ) {
                 clear(womenList->list_);
-                node1 = node1->next_;
+                node1 = nextList(women->preferences_->list_, node1);
+puts("loop iai mano");
             }
             while ( node2 != backList(menList->list_) ) {
                 clear(menList->list_);            }
                 node2 = node2->next_;
+puts("loop iai bro");
+*/
         }
-        printf("Esta dando erro \n");
         fclose(input);
         fclose(output);
-        return 0;
         }
     }
+    return 0;
 }

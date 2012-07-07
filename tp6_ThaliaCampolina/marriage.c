@@ -21,19 +21,23 @@ float Satisfaction(List* list){
     return v/number;
 }
 
+//return 1 if person is Married
 int isMarried(PersonList* personList , int key){
     Person* person;
     person=findPersonWithKey(personList, key);
-    if(person->preferences_->list_->status_!= 0){
+//person->status_ = 8;
+puts("bobo");
+printf("status = %d \n", person->status_);
+    if(person->status_ != -1){
         return 1;
     }
     return 0;
 }
 
-int AllMarried(PersonList* personList){
-    int i, number;
-    number = personList->list_->size_;
-    for (i = 0; i < number; i++){
+//if all men or all women are married, return 1. Number = number of person, given in the input file
+int AllMarried(PersonList* personList, int number){
+    int i;
+    for (i = 1; i <= number; i++){
         if(isMarried(personList, i)){
         return 0;
         }
@@ -41,62 +45,69 @@ int AllMarried(PersonList* personList){
     return 1;
 }
 
-
-//Funcao que checa se a Mulher de id1 prefere outro Homem ao  homem de id2.Se preferir id1 retorna 1.
-int Prefers(PersonList* listWoman, int Num_id1, int Num_id2){
-    Node* men;
-    Person* woman;
-    
-    woman=findPersonWithKey(listWoman, Num_id1);
-    int status = woman->status_;
-    men = frontList(woman->preferences_);
-    while (getInfo(men) != lastElement(listWoman) ){
-        if ( getInfo(men) == status){
-            return 0;
-        }
-        if ( getInfo(men) == Num_id2){
-            return 1;
-        }
-            men = men->next_;
-   }
-}
-
-
-void Marry (PersonList* list1, int Num1, PersonList* list2, int Num2) {
-    Person* person1;
-    person1=findPersonWithKey(list1, Num1);
-    Person* person2;
-    person2=findPersonWithKey(list2, Num2);
-    person1->status_= Num2;
-    person2->status_= Num1;
-}
-
-
-void Divorce ( PersonList* list1, int Num1, PersonList* list2, int Num2 ){
-    Person* person1;
-    person1=findPersonWithKey(list1, Num1);
-    Person* person2;
-    person2=findPersonWithKey(list2, Num2);
-    person1->status_= 0;
-    person2->status_= 0;
-}
-
-void SMP (PersonList* menCrushes, PersonList* womenCrushes) {
-    int  i, number;
+//Checks if id_woman prefers id_man or the one she is married. If she prefers id_man, return 1
+int Prefers(PersonList* listWoman, int id_woman, int id_man, int number){
+    int i = 0;
     Node* node;
     Person* woman;
+    
+    woman=findPersonWithKey(listWoman, id_woman);
+    int status = woman->status_;
+    node = frontList(woman->preferences_->list_);
+    while (i<number){
+        if (getInfo(node) == status){
+            return 0;
+        }
+        if (getInfo(node) ==id_man){
+            return 1;
+        }
+        i++;
+        node = node->next_;
+    }
+    return -1;
+}
+
+//Marries 
+void Marry (PersonList* menList, int id_man, PersonList* womenList, int id_woman) {
+    Person* man;
+    man=findPersonWithKey(menList, id_man);
+    Person* woman;
+    woman=findPersonWithKey(womenList, id_woman);
+    man->status_= id_woman;
+    woman->status_= id_man;
+}
+
+//Divorces
+void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_woman) {
+    Person* man;
+    man=findPersonWithKey(menList, id_man);
+    Person* woman;
+    woman=findPersonWithKey(womenList, id_woman);
+    man->status_= -1;
+    woman->status_= -1;
+}
+
+//Stable Marriage Problem function
+void SMP (PersonList* menList, PersonList* womenList, int number) {
+    Node* node;
+    Person* man;
+    Person* woman;
+    int id_woman;
  //   number = mensCrushes[0].size_;
-    while (!AllMarried (menCrushes)){
-        node = frontList(menCrushes->list_);
-        while ( node != backList(menCrushes->list_) ) {    
-            woman = firstElement(womenCrushes->list_);
-            if (woman->status_ == 0 || Prefers(womenCrushes, woman, womenCrushes->list_->status_) == 1){
-                Marry(menCrushes, i , womenCrushes, woman );
+    while (!AllMarried (menList,number)){
+puts("ti cole mano");
+        man = frontList(menList->list_);
+        while ( man != backList(menList->list_) ) {    
+puts("faaaaala fiii");
+            id_woman = getInfo((firstElement(man->preferences_->list_)));
+            woman=findPersonWithKey(womenList, id_woman);
+            if (woman->status_ == 0 || Prefers(womenList, woman->key_, man->key_,number) == 1){
+                Marry(menList, man->key_ , womenList, woman->key_ );
             } else {
-                Divorce(menCrushes, i , womenCrushes, woman );
-                Marry (menCrushes,Prefers(womenCrushes, woman, womenCrushes->list_->status_), womenCrushes, woman);
+                Divorce(menList, man->key_ , womenList, woman->key_ );
+                Marry (menList,man->key_,womenList,woman->key_);
             }
-        node = nextList(womenCrushes->list_, node);
+        man = nextList(menList->list_,man);
         }
     }
 }

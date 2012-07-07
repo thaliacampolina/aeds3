@@ -4,18 +4,22 @@
 
 float Satisfaction(List* list);
 
-int isMarried(List* list, int Num_id);
+//return 1 if person is Married
+int isMarried(PersonList* personList , int key);
 
-int AllMarried(List* list);
+//if all men or all women are married, return 1. Number = number of person, given in the input file
+int AllMarried(PersonList* personList, int number);
 
-int Prefers(List* listWoman, int Num_id1, int Num_id2);
+//Checks if id_woman prefers id_man or the one she is married. If she prefers id_man, return 1
+int Prefers(PersonList* listWoman, int id_woman, int id_man, int number);
 
-void Marry (List* list1, int Num1, List* list2, int Num2) ;
+//Marries 
+void Marry (PersonList* menList, int id_man, PersonList* womenList, int id_woman);
 
-void Divorce ( List* list1, int Num1, List* list2, int Num2 );
+//Divorces
+void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_woman);
 
-void SMP (List* list1, List* list2) ;
-
-
+//Stable Marriage Problem function
+void SMP (PersonList* menCrushes, PersonList* womenCrushes, int number);
 
 #endif

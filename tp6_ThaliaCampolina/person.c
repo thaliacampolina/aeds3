@@ -71,14 +71,19 @@ void dumpPersonList(PersonList* personList) {
     printf("\n");
 }
 
-Person* findPersonWithKey(PersonList* personList, int key){
-    Node* node = frontList(personList->list_);
-    while (node != backList(personList->list_) ) {
-        Person* person = (Person*) getInfo(node);
+Person* findPersonWithKey(PersonList* personList, void* key, int number){
+    int i;
+    Person* person = frontList(personList->list_);
+    //Person* person;
+    for (i=1; i <= number; i++) {
+        //person->key_ = getInfo(node);
+	//person->status_=-1;
+printf("idiota \n");
+printf("\n key=%d  person key:%d \n",key,person->key_);
             if( person->key_ == key ){
                 return person;
             }
-            node = nextList(personList->list_, node);
+            person = nextList(personList->list_, person );
     }
     return NULL;
 }
