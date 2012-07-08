@@ -52,18 +52,8 @@ int Prefers(PersonList* listWoman, int id_woman, int id_man, int number){
     return -1;
 }
 
-int getPreferred(Person* person)
-{
-    return firstElement(person->preferences_->list_);
-    
-}
 
-int getHusband(Person* woman)
-{
-    return woman->status_;
-}
-
-//retorna o mais desejado
+//return the preferred man given two options
 int mostPreferred(Person* woman,int id_1,int id_2)
 {
     Node* node = frontList(woman->preferences_->list_);
