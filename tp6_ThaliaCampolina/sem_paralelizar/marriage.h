@@ -2,8 +2,6 @@
 #ifndef _list_h_
 #define _list_h_
 
-float Satisfaction(List* list);
-
 //return 1 if person is Married
 int isMarried(PersonList* personList , int key);
 
