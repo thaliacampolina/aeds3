@@ -22,4 +22,13 @@ void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_wom
 //Stable Marriage Problem function
 void SMP (PersonList* menCrushes, PersonList* womenCrushes, int number);
 
+//Calculates man or woman satisfaction
+int satisfactionBySex(PersonList* personList);
+
+//Calculates General Satisfaction
+int satisfactionGeneral(PersonList* menList, PersonList* womenList);
+
+//Writes the tree satisfaction types in output file (man, woman, general)
+void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output);
+
 #endif

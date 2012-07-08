@@ -3,23 +3,7 @@
 #include <math.h>
 #include "list.h"
 #include "person.h"
-
-float Satisfaction(List* list){
-    float number;
-    int i;
-    float v = 0;
-    Node* node;
-    number = (float) list[0].size_;
-    for (i=0; i < number; i++){
-       for (node = frontList(list); node != backList(list); node = node->next_){
-           v++;
-           if(node->info_ == list[i].status_){
-            break;
-           }
-        }
-    }
-    return v/number;
-}
+#include <assert.h>
 
 //return 1 if person is Married
 int isMarried(PersonList* personList , int key){
@@ -166,3 +150,41 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
         
     }
 }
+
+//Calculates General Satisfaction
+int satisfactionGeneral(PersonList* menList, PersonList* womenList){
+    return satisfactionBySex(menList)+satisfactionBySex(womenList);
+}
+
+//Calculates man or woman satisfaction
+int satisfactionBySex(PersonList* personList){
+    int i=0;
+    assert(personList);
+    assert(personList->list_);
+    Person* person;
+    Node* node = frontList(personList->list_);
+    Node* nodePref;
+    while ( node != backList(personList->list_) ) {
+        person=(Person*) getInfo(node);
+        nodePref = frontList(person->preferences_);
+        while(nodePref != backList(person->preferences_)){
+            if(person->status_ == getInfo(nodePref)){
+                break;
+            }
+            i++;
+            nodePref = nextList(personList, nodePref);
+        }
+        node = nextList(personList->list_, node);
+    }
+    return i;
+}
+
+
+//Writes the tree satisfaction types in output file (man, woman, general)
+void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output){
+    fprintf(output,"%.3f\n",(float)satisfactionGeneral(menList,womenList)/(2*number)); 
+    fprintf(output,"%.3f\n",(float)satisfactionBySex(menList)/number);
+    fprintf(output,"%.3f\n",(float)satisfactionBySex(womenList)/number);
+    
+}
+

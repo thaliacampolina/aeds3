@@ -11,8 +11,6 @@
 #include "person.h"
 #include "marriage.h"
 
-//Funcao que le o arquivo input.txt e guarda as listas dos pretendendes em estruturas de listas encadeadas.
-
 int main (int argc, char* argv[]) {
     FILE *input,*output;
     char option;
@@ -43,7 +41,7 @@ int main (int argc, char* argv[]) {
          puts("O ARQUIVO NAO FOI ABERTO");
          return 0;
      } else {
-
+        //starts to read the input file
         int a,i,j,y, number, instances;
         number = 0;
         input=fopen("input.txt", "r");
@@ -55,11 +53,12 @@ int main (int argc, char* argv[]) {
         PrefList* womenCrushes;
         Person* men; 
         Person* women;
-
+         
+        //Reading instances
         for (a=1; a <= instances; a++) {
             fscanf(input, "%d", &number);
  
-
+            //Creating men preference list
             for (i=1; i <= number; i++) {
 
                 menCrushes = createPrefList();
@@ -74,6 +73,7 @@ int main (int argc, char* argv[]) {
 
             }
 
+            //creating women preference list
             for (i=1; i <= number; i++) {
 
                 womenCrushes = createPrefList();
@@ -87,12 +87,12 @@ int main (int argc, char* argv[]) {
   
             }
 
-            //Stable Marriage Problem
+            //Stable Marriage Problem -> print in output file
             SMP(menList, womenList, number);
-            dumpPersonList(menList);
-            dumpPersonList(womenList);
             dumpPersonListStatusToOutput(menList, output);
 
+            //Satisfaction 0> print in output file
+            writeOutputSatisfaction(menList, womenList,number, output);
 
         }
         fclose(input);

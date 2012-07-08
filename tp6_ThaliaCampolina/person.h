@@ -9,11 +9,13 @@ typedef struct prefList {
     List* list_;
 } PrefList;
 
-//Cria PrefList
+//Creates PrefList
 PrefList* createPrefList();
-//Insere preferência(id do sexo oposto ) na lista de PrefList  
+
+//Inst preferece(id oposite sex) in PrefList  
 void insertPref(PrefList* pref, int p);                
-//Plota a PrefList na tela                                     
+
+//dumps PrefList on screen                                     
 void dumpPrefList(PrefList* pref);            
                                                              
 typedef struct person {                                       
@@ -22,11 +24,13 @@ typedef struct person {
     int status_; // SINGLE or MARRIED
 } Person;
 
-//Cria nova pessoa
+//Criates a new person
 Person* createPerson(int key, PrefList* prefs);
-//Plota informacoes da pessoa na tela
+
+//dumps Person on screen
 void dumpPerson(Person* person);
 
+//dumps Person status in output file
 void dumpPersonStatusToOutput(Person* person, FILE* output);
 
 typedef struct personList {
@@ -34,15 +38,18 @@ typedef struct personList {
 } PersonList;
  
 
-//Cria Lista de Pessoas
+//Criates PersonList (a list of persons(man or woman))
 PersonList* createPersonList();
 
+//Find person when is given its key
 Person* findPersonWithKey(PersonList* personList, void* key);
-//Insere preferencia na Lista de uma pessoa
+
+//Insert preference in a PersonList
 void insertPersonInList(PersonList* personList, Person* person);
-//Plota Lista de Pessoas na tela
+//dumps PersonList on screen
 void dumpPersonList(PersonList* personList);
 
+//dumps status of all persons from PersonList on screen
 void dumpPersonListStatusToOutput(PersonList* personList, FILE* output);
 
 #endif
