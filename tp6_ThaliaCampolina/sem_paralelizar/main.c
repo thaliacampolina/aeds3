@@ -92,10 +92,11 @@ int main (int argc, char* argv[]) {
             //Satisfaction -> print in output file
             writeOutputSatisfaction(menList, womenList,number, output);
             
+//puts("loop ");
             for(i=0; i < number; i++){
                 clear(menList->list_);
                 clear(womenList->list_);
-        }
+            }
 
         }
 
