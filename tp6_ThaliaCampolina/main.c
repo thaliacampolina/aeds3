@@ -15,8 +15,6 @@ int main (int argc, char* argv[]) {
     FILE *input,*output;
     char option;
     char *s_input, *s_output;
-    List* words;
-    words = NewList();
     if (argc<2){
         puts("ARGUMENT MISSING");
         return 0;
@@ -91,10 +89,17 @@ int main (int argc, char* argv[]) {
             SMP(menList, womenList, number);
             dumpPersonListStatusToOutput(menList, output);
 
-            //Satisfaction 0> print in output file
+            //Satisfaction -> print in output file
             writeOutputSatisfaction(menList, womenList,number, output);
+            
+            for(i=0; i < number; i++){
+                clear(menList->list_);
+                clear(womenList->list_);
+        }
 
         }
+
+//Liberar memoria:
         fclose(input);
         fclose(output);
         }
