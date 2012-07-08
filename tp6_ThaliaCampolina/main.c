@@ -49,7 +49,6 @@ int main (int argc, char* argv[]) {
         pthread_t threads[NUM_THREADS];
         input = fopen(s_input, "r");
         output = fopen(s_output, "w");
-        printf("numero de threads=%d\n",NUM_THREADS);
      if (input == NULL){
          puts("O ARQUIVO NAO FOI ABERTO");
          return 0;

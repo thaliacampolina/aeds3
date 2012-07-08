@@ -41,4 +41,3 @@ int satisfactionPersonParalel(PersonList* personList, int NUM_THREADS);
 
 
 #endif
-void* SMP (void* threadarg);

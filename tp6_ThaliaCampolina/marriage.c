@@ -210,7 +210,6 @@ void* satisfactionByPrefList(void* threadarg)
         i++;
         nodePref = nextList(personList, nodePref);
     }
-    printf("satisfaction da linha=%d\n",i);
     my_data->satisfaction=i;
     return i;
 }
