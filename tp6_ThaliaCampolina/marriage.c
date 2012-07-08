@@ -25,7 +25,6 @@ float Satisfaction(List* list){
 int isMarried(PersonList* personList , int key){
     Person* person=(Person*) malloc(sizeof(Person));
     person=findPersonWithKey(personList, key);
-    //dumpPerson(person);
 
     if(person->status_ != -1){
         return 1;
@@ -120,8 +119,6 @@ void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_wom
 
 //Stable Marriage Problem function
 void SMP (PersonList* menList, PersonList* womenList, int number) {
-    //Node* node;
-    //Person* man;
     Person* woman;
     int id_woman;
 
@@ -143,11 +140,8 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
                 
                 id_woman=getInfo(nodePrefListMan);
                 woman=findPersonWithKey(womenList,id_woman);
-                //printf("id_woman=%d\n",id_woman);
-                //int i;scanf("%d",&i);
                 if(isMarried(womenList,woman->key_)==0)
                 {
-                     //printf("dumpando mulher:\n");dumpPerson(woman);
             
                      Marry(menList,man->key_,womenList,woman->key_);
                 }
@@ -170,8 +164,5 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
 
         }
         
-        //int i;scanf("%d",&i);
-        //break;
-
     }
 }

@@ -46,6 +46,10 @@ void dumpPerson(Person* person){
     printf(")");
 }
 
+void dumpPersonStatusToOutput(Person* person, FILE* output){
+    fprintf(output,"%d %d \n", person->key_,  person->status_);
+}
+
 PersonList* createPersonList(){
     PersonList* personlist = (PersonList*) malloc(sizeof(PersonList));
     List* pref = NewList();
@@ -70,6 +74,19 @@ void dumpPersonList(PersonList* personList) {
         node = nextList(personList->list_, node);
     }
 }
+
+void dumpPersonListStatusToOutput(PersonList* personList, FILE* output){
+    assert(personList);
+    assert(personList->list_);
+    Node* node = frontList(personList->list_);
+    while ( node != backList(personList->list_) ) {
+        if (node!=NULL && getInfo(node)!=NULL) {
+            dumpPersonStatusToOutput( (Person*) getInfo(node), output );
+        }
+        node = nextList(personList->list_, node);
+    }
+}
+
 
 Person* findPersonWithKey(PersonList* personList, void* key){
     assert(personList);

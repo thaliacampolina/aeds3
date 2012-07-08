@@ -1,6 +1,7 @@
 #ifndef _person_h_
 #define _person_h_
 #include "list.h"
+#include <stdio.h>
 
 #define SINGLE -1
 
@@ -26,6 +27,7 @@ Person* createPerson(int key, PrefList* prefs);
 //Plota informacoes da pessoa na tela
 void dumpPerson(Person* person);
 
+void dumpPersonStatusToOutput(Person* person, FILE* output);
 
 typedef struct personList {
     List* list_;
@@ -41,6 +43,7 @@ void insertPersonInList(PersonList* personList, Person* person);
 //Plota Lista de Pessoas na tela
 void dumpPersonList(PersonList* personList);
 
+void dumpPersonListStatusToOutput(PersonList* personList, FILE* output);
 
 #endif
 

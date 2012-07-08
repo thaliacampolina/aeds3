@@ -91,6 +91,8 @@ int main (int argc, char* argv[]) {
             SMP(menList, womenList, number);
             dumpPersonList(menList);
             dumpPersonList(womenList);
+            dumpPersonListStatusToOutput(menList, output);
+
 
         }
         fclose(input);
