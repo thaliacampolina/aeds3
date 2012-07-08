@@ -1,12 +1,6 @@
-/* 
- * File:   paralelo.h
- * Author: lucassilva
- *
- * Created on 8 de Julho de 2012, 17:04
- */
-
 #ifndef PARALELO_H
 #define	PARALELO_H
+
 
 #define MAX_THREADS 50
 

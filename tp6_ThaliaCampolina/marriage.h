@@ -23,7 +23,7 @@ void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_wom
 void SMP (PersonList* menList, PersonList* womenList, int number);
 
 //Calculates man or woman satisfaction
-int satisfactionBySex(PersonList* personList);
+//int satisfactionBySex(PersonList* personList);
 
 //Calculates General Satisfaction
 int satisfactionGeneral(PersonList* menList, PersonList* womenList, int NUM_THREADS);

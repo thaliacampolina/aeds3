@@ -148,7 +148,7 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
 int satisfactionGeneral(PersonList* menList, PersonList* womenList, int NUM_THREADS){
     return satisfactionPersonParalel(menList,NUM_THREADS)+satisfactionPersonParalel(womenList,NUM_THREADS);
 }
-
+/*
 //Calculates man or woman satisfaction
 int satisfactionBySex(PersonList* personList){
     int i=0;
@@ -171,7 +171,7 @@ int satisfactionBySex(PersonList* personList){
     }
     return i;
 }
-
+*/
 
 //Writes the tree satisfaction types in output file (man, woman, general)
 void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output,int NUM_THREADS){
