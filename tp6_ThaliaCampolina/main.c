@@ -11,6 +11,7 @@
 #include "person.h"
 #include "marriage.h"
 #include <pthread.h>
+#include <semaphore.h>
 
 int main (int argc, char* argv[]) {
     FILE *input,*output;

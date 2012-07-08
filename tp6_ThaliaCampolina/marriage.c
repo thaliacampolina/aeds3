@@ -102,25 +102,26 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
     Node* node = frontList(menList->list_);
     Node* nodePrefListMan ;
     man=( (Person*) getInfo(node) );
-
+    //While all man are single
     while (AllMarried (menList,number)==0){
         node = frontList(menList->list_);
         man=( (Person*) getInfo(node) );
+        //Goes through menList 
         while ( node != backList(menList->list_) ) {    
-            
+            //Goes throgh each men pref list
             nodePrefListMan=frontList(man->preferences_->list_);
             while ( nodePrefListMan != backList(man->preferences_->list_) && man->status_==-1) {
                 
                 
                 id_woman=getInfo(nodePrefListMan);
                 woman=findPersonWithKey(womenList,id_woman);
-                if(isMarried(womenList,woman->key_)==0)
-                {
+                //if woman is single, man marries her
+                if(isMarried(womenList,woman->key_)==0){
             
                      Marry(menList,man->key_,womenList,woman->key_);
                 }
-                else
-                {
+                //if woman is married, she picks the men she prefers
+                else{
                      if(mostPreferred(woman,man->key_,woman->status_)==man->key_)
                      {
                          Divorce(menList,woman->status_,womenList,woman->key_);
