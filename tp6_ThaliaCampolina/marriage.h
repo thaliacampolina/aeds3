@@ -2,6 +2,8 @@
 #ifndef _list_h_
 #define _list_h_
 
+float Satisfaction(List* list);
+
 //return 1 if person is Married
 int isMarried(PersonList* personList , int key);
 
@@ -18,15 +20,25 @@ void Marry (PersonList* menList, int id_man, PersonList* womenList, int id_woman
 void Divorce (PersonList* menList, int id_man, PersonList* womenList, int id_woman);
 
 //Stable Marriage Problem function
-void SMP (PersonList* menCrushes, PersonList* womenCrushes, int number);
+void SMP (PersonList* menList, PersonList* womenList, int number);
 
 //Calculates man or woman satisfaction
 int satisfactionBySex(PersonList* personList);
 
 //Calculates General Satisfaction
-int satisfactionGeneral(PersonList* menList, PersonList* womenList);
+int satisfactionGeneral(PersonList* menList, PersonList* womenList, int NUM_THREADS);
 
 //Writes the tree satisfaction types in output file (man, woman, general)
-void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output);
+void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output,int NUM_THREADS);
+
+//Paralel satisfactionBySex - internal loop
+//calculates the person position on the prefList
+void* satisfactionByPrefList(void* threadarg);
+
+//Paralel satisfactionBySex
+int satisfactionPersonParalel(PersonList* personList, int NUM_THREADS);
+
+
 
 #endif
+void* SMP (void* threadarg);

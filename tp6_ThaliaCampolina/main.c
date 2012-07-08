@@ -10,15 +10,19 @@
 #include "list.h"
 #include "person.h"
 #include "marriage.h"
+#include "paralelo.h"
 #include <pthread.h>
+#include <assert.h>
 #include <semaphore.h>
 
 int main (int argc, char* argv[]) {
+    
     FILE *input,*output;
     char option;
     char *s_input, *s_output;
-    int NUM_THREADS=0;
-
+    int NUM_THREADS=0,rc;
+    
+    
     if (argc<2){
         puts("ARGUMENT MISSING");
         return 0;
@@ -31,27 +35,29 @@ int main (int argc, char* argv[]) {
                         case 'o':
                                 s_output = optarg;
                                 break;
+                        
                         case 't':
-                                NUM_THREADS=atoi(optarg);
-                                break;
+                            NUM_THREADS=atoi(optarg);
+                            break;
+                         
                         default :
                                 exit(0);
                 }
         }
 
+        
+        pthread_t threads[NUM_THREADS];
         input = fopen(s_input, "r");
         output = fopen(s_output, "w");
-
+        printf("numero de threads=%d\n",NUM_THREADS);
      if (input == NULL){
          puts("O ARQUIVO NAO FOI ABERTO");
          return 0;
      } else {
-
         //starts to read the input file
-
-
         int a,i,j,y, number, instances;
         number = 0;
+        
         fscanf(input, "%d", &instances);
         
         PersonList* menList=createPersonList(); 
@@ -96,20 +102,20 @@ int main (int argc, char* argv[]) {
 
             //Stable Marriage Problem -> print in output file
             SMP(menList, womenList, number);
+            
             dumpPersonListStatusToOutput(menList, output);
 
             //Satisfaction -> print in output file
-            writeOutputSatisfaction(menList, womenList,number, output);
+            writeOutputSatisfaction(menList, womenList,number, output, NUM_THREADS);
             
-//puts("loop ");
-//Liberar memoria:
             for(i=0; i < number; i++){
                 clear(menList->list_);
                 clear(womenList->list_);
-            }
+        }
 
         }
 
+//Liberar memoria:
         fclose(input);
         fclose(output);
         }

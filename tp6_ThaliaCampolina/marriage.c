@@ -4,6 +4,8 @@
 #include "list.h"
 #include "person.h"
 #include <assert.h>
+#include "paralelo.h"
+#include <pthread.h>
 
 //return 1 if person is Married
 int isMarried(PersonList* personList , int key){
@@ -143,8 +145,8 @@ void SMP (PersonList* menList, PersonList* womenList, int number) {
 }
 
 //Calculates General Satisfaction
-int satisfactionGeneral(PersonList* menList, PersonList* womenList){
-    return satisfactionBySex(menList)+satisfactionBySex(womenList);
+int satisfactionGeneral(PersonList* menList, PersonList* womenList, int NUM_THREADS){
+    return satisfactionPersonParalel(menList,NUM_THREADS)+satisfactionPersonParalel(womenList,NUM_THREADS);
 }
 
 //Calculates man or woman satisfaction
@@ -172,10 +174,100 @@ int satisfactionBySex(PersonList* personList){
 
 
 //Writes the tree satisfaction types in output file (man, woman, general)
-void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output){
-    fprintf(output,"%.3f\n",(float)satisfactionGeneral(menList,womenList)/(2*number)); 
-    fprintf(output,"%.3f\n",(float)satisfactionBySex(menList)/number);
-    fprintf(output,"%.3f\n",(float)satisfactionBySex(womenList)/number);
+void writeOutputSatisfaction(PersonList* menList, PersonList* womenList,int number, FILE* output,int NUM_THREADS){
+    
+    fprintf(output,"%.3f\n",(float)satisfactionGeneral(menList,womenList,NUM_THREADS)/(2*number)); 
+    fprintf(output,"%.3f\n",(float)satisfactionPersonParalel(menList,NUM_THREADS)/number);
+    fprintf(output,"%.3f\n",(float)satisfactionPersonParalel(womenList,NUM_THREADS)/number);
+  
+
+
     
 }
 
+//Paralel satisfactionBySex - internal loop
+//calculates the person position on the prefList
+void* satisfactionByPrefList(void* threadarg)
+{
+    struct thread_data *my_data;
+   
+    my_data = ( struct thread_data *) threadarg;
+    
+    
+    Node* nodePref;
+    nodePref=my_data->preflist;
+    Person* person;
+    person=my_data->person;
+    PersonList* personList;
+    personList=my_data->personList;
+    
+    
+    int i=0;
+    while(nodePref != backList(person->preferences_)){
+        if(person->status_ == getInfo(nodePref)){
+            break;
+        }
+        i++;
+        nodePref = nextList(personList, nodePref);
+    }
+    printf("satisfaction da linha=%d\n",i);
+    my_data->satisfaction=i;
+    return i;
+}
+
+
+
+//Paralel satisfactionBySex
+int satisfactionPersonParalel(PersonList* personList, int NUM_THREADS)
+{
+    pthread_t threads[NUM_THREADS];
+    int i=0,rc=0;
+    assert(personList);
+    assert(personList->list_);
+    Person* person;
+    Node* node = frontList(personList->list_);
+    Node* nodePref;
+    int satisfaction=0;
+    
+    while ( node != backList(personList->list_) ) {
+        
+        
+        for(i=0;i<NUM_THREADS;i++){
+            
+            person=(Person*) getInfo(node);
+            nodePref = frontList(person->preferences_);
+        
+            thread_data_array[i].preflist=nodePref;
+            thread_data_array[i].person=person;
+            thread_data_array[i].personList=personList;
+            
+            rc=pthread_create(&threads[i],NULL,satisfactionByPrefList,(void*) &thread_data_array[i]);
+            
+            node = nextList(personList->list_, node);
+            
+            
+        }
+        
+        
+        for (i=0; i<NUM_THREADS; ++i) 
+        {
+            rc = pthread_join(threads[i], NULL);
+            assert(0 == rc);
+            satisfaction=satisfaction+thread_data_array[i].satisfaction;
+        }  
+        
+    }
+    
+    
+    
+/*
+    for(i=0;i<NUM_THREADS;i++)
+    {
+        satisfaction=satisfaction+thread_data_array[i].satisfaction;
+    }
+*/
+    
+    return satisfaction;
+    
+    
+}

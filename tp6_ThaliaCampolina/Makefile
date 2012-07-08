@@ -1,6 +1,6 @@
 CC = gcc
 
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -lpthread
 
 RM = rm -f
 
@@ -23,5 +23,5 @@ clean:
 	clear
 
 run: $(MAIN)
-	./$(MAIN) -i input.txt -o output.txt
+	./$(MAIN) -i input.txt -o output.txt -t 4
 
