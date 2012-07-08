@@ -39,10 +39,12 @@ int main (int argc, char* argv[]) {
          puts("O ARQUIVO NAO FOI ABERTO");
          return 0;
      } else {
+
         //starts to read the input file
+
+
         int a,i,j,y, number, instances;
         number = 0;
-        input=fopen("input.txt", "r");
         fscanf(input, "%d", &instances);
         
         PersonList* menList=createPersonList(); 
@@ -92,14 +94,15 @@ int main (int argc, char* argv[]) {
             //Satisfaction -> print in output file
             writeOutputSatisfaction(menList, womenList,number, output);
             
+//puts("loop ");
+//Liberar memoria:
             for(i=0; i < number; i++){
                 clear(menList->list_);
                 clear(womenList->list_);
-        }
+            }
 
         }
 
-//Liberar memoria:
         fclose(input);
         fclose(output);
         }
