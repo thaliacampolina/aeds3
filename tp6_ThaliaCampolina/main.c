@@ -10,22 +10,28 @@
 #include "list.h"
 #include "person.h"
 #include "marriage.h"
+#include <pthread.h>
 
 int main (int argc, char* argv[]) {
     FILE *input,*output;
     char option;
     char *s_input, *s_output;
+    int NUM_THREADS=0;
+
     if (argc<2){
         puts("ARGUMENT MISSING");
         return 0;
     } else {
-        while((option = getopt(argc,argv,"i:o:")) != -1){
+        while((option = getopt(argc,argv,"i:o:t:")) != -1){
                 switch(option){
                         case 'i':
                                 s_input = optarg;
                                 break;
                         case 'o':
                                 s_output = optarg;
+                                break;
+                        case 't':
+                                NUM_THREADS=atoi(optarg);
                                 break;
                         default :
                                 exit(0);
